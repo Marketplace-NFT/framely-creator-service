@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDirs": ["src", "test"],
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@bootstrap/*": ["bootstrap/*"],
+      "@routes/*": ["routes/*"],
+      "@utils/*": ["utils/*"],
+      "@config/*": ["config/*"],
+      "@controllers/*": ["controllers/*"],
+      "@customtypes/*": ["types/*"],
+      "@enum/*": ["enum/*"],
+      "@services/*": ["services/*"],
+      "@lib/*": ["lib/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@entities/*": ["entities/*"]
+    },
+    "typeRoots": ["node_modules/@types"],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": ["es2015.promise", "dom", "es2017"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["./node_modules/**/*", "./test/**/*"]
+}
