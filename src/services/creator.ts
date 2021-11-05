@@ -54,7 +54,8 @@ export default class CreatorService {
   }
 
   public async deleteCollectible(userId: string, accountId: string, id: string): Promise<DeleteCollectibleResponse> {
-    await this.collectibleRepository.delete({ id, userId, accountId });
+    const res = await this.collectibleRepository.delete({ id, userId, accountId });
+    if (res.affected === 0) throw new EntityNotFoundError('Collectible not found');
     return { status: 'Done', collectibleId: id };
   }
 }
