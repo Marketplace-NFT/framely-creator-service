@@ -5,7 +5,143 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"CollectibleResponse": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"title",
+					"royalties",
+					"freeMinting"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCollectibleResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"transactionId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCollectibleBody": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"title",
+					"royalties",
+					"freeMinting"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateCollectibleResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"collectibleId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"collectibleId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateCollectibleBody": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"title",
+					"royalties",
+					"freeMinting",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DeleteCollectibleResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"collectibleId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"collectibleId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
 		"securitySchemes": {
 			"jwt": {
 				"type": "apiKey",
@@ -25,16 +161,19 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/creator": {
+		"/collectibles": {
 			"get": {
-				"operationId": "GetProfile",
+				"operationId": "GetAllCollectibles",
 				"responses": {
 					"200": {
 						"description": "OK",
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"items": {
+										"$ref": "#/components/schemas/CollectibleResponse"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -43,8 +182,148 @@
 				"tags": [
 					"Creator"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCollectible",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateCollectibleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Creator"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCollectibleBody"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "UpdateCollectible",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateCollectibleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Creator"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateCollectibleBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/collectibles/{id}": {
+			"get": {
+				"operationId": "GetCollectible",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectibleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Creator"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCollectible",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteCollectibleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Creator"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/": {
