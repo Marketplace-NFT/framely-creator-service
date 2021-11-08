@@ -383,7 +383,7 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "/api/creator"
 		}
 	]
 }

@@ -94,7 +94,7 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/collectibles',
+        app.get('/api/creator/collectibles',
             authenticateMiddleware([{"jwt":[]}]),
 
             function CreatorController_getAllCollectibles(request: any, response: any, next: any) {
@@ -118,7 +118,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/collectibles/:id',
+        app.get('/api/creator/collectibles/:id',
             authenticateMiddleware([{"jwt":[]}]),
 
             function CreatorController_getCollectible(request: any, response: any, next: any) {
@@ -143,7 +143,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/collectibles',
+        app.post('/api/creator/collectibles',
             authenticateMiddleware([{"jwt":[]}]),
 
             function CreatorController_createCollectible(request: any, response: any, next: any) {
@@ -168,7 +168,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/collectibles',
+        app.put('/api/creator/collectibles',
             authenticateMiddleware([{"jwt":[]}]),
 
             function CreatorController_updateCollectible(request: any, response: any, next: any) {
@@ -193,7 +193,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.delete('/collectibles/:id',
+        app.delete('/api/creator/collectibles/:id',
             authenticateMiddleware([{"jwt":[]}]),
 
             function CreatorController_deleteCollectible(request: any, response: any, next: any) {
@@ -218,7 +218,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/',
+        app.get('/api/creator',
 
             function IndexController_index(request: any, response: any, next: any) {
             const args = {

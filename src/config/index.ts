@@ -1,10 +1,26 @@
+import fs from 'fs';
+
 const baseConfig = {
   port: process.env.PORT ? Number(process.env.PORT) : 3000,
   env: process.env.NODE_ENV || 'development',
+  basePath: process.env.npm_package_basePath,
   CORS_ORIGIN: process.env.CORS_ORIGIN,
-  USE_LOG_FILE: process.env.USE_LOG_FILE || false,
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '24h',
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1d',
+  JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY || '',
   JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY || '',
+  USE_LOG_FILE: Boolean(process.env.USE_LOG_FILE),
 };
+
+if (process.env.JWT_PRIVATE_KEY_FILE) {
+  // read file one time when app loaded
+  const privateKey = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILE, 'utf8');
+  baseConfig.JWT_PRIVATE_KEY = privateKey;
+}
+
+if (process.env.JWT_PUBLIC_KEY_FILE) {
+  // read file one time when app loaded
+  const publicKey = fs.readFileSync(process.env.JWT_PUBLIC_KEY_FILE, 'utf8');
+  baseConfig.JWT_PUBLIC_KEY = publicKey;
+}
 
 export default baseConfig;
