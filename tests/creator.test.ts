@@ -7,14 +7,16 @@ import { create, close } from './connection';
 beforeAll(async () => await create());
 afterAll(async () => await close());
 
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Yzk4YTgwOS1hY2NjLTRkOTAtODNiNS0wZmRjNDc5ZjhmZGYiLCJhY2NvdW50SWQiOiI5NzM3MzM1NS1mNzc5LTQ1OTAtYjUxNS1hNGY2YTc5YmViYzMiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2MTAxNjU5LCJleHAiOjE2MzYxODgwNTl9.kAw5h8-viaMPLq65fgvcazb_2fzGYHsumE0b8LDLfkdzyVSsPLnY9aPPvJOhQPr6oQymop4LUqwgu-2Smd88hCBk6g1qaNgxlTrSkL2TKLqCrlUF1nAytuN0kb6AoQZ81cSkprB5Ao4CbYHlwWMAt264o8FZ2EGU4Wbre5Dhxxw`;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Yzk4YTgwOS1hY2NjLTRkOTAtODNiNS0wZmRjNDc5ZjhmZGYiLCJhY2NvdW50SWQiOiI5NzM3MzM1NS1mNzc5LTQ1OTAtYjUxNS1hNGY2YTc5YmViYzMiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2MzU3Mzc0LCJleHAiOjE2MzY0NDM3NzR9.bVx1zxaOjnHYYmW_aT0MbM7mkhPQQiC7DddgitWcFQzZ4hqRdNvxv2_mO2Eg5KPFBIyFlNKCNsdSX53Jkfn2ef8QFY07nJXpHoqleGx6CLygiWyanMdXWL6R-OKJRomob6mUYlJhuKRRR5SArX9ezMrzQla_z-OL2ylvraA3qKo`;
 let collectible: UpdateCollectibleBody;
 const data: CreateCollectibleBody = {
   fileUrl: 'test',
+  price: 0,
   title: parseInt(`${Math.random() * 10000000}`).toString(),
   description: 'test',
   royalties: 0,
   freeMinting: true,
+  draft: true,
 };
 
 describe('Test Creator Service', () => {

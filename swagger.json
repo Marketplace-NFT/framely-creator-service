@@ -11,6 +11,10 @@
 					"fileUrl": {
 						"type": "string"
 					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
 					"title": {
 						"type": "string"
 					},
@@ -23,13 +27,18 @@
 					},
 					"freeMinting": {
 						"type": "boolean"
+					},
+					"draft": {
+						"type": "boolean"
 					}
 				},
 				"required": [
 					"fileUrl",
+					"price",
 					"title",
 					"royalties",
-					"freeMinting"
+					"freeMinting",
+					"draft"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -54,6 +63,10 @@
 					"fileUrl": {
 						"type": "string"
 					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
 					"title": {
 						"type": "string"
 					},
@@ -66,13 +79,18 @@
 					},
 					"freeMinting": {
 						"type": "boolean"
+					},
+					"draft": {
+						"type": "boolean"
 					}
 				},
 				"required": [
 					"fileUrl",
+					"price",
 					"title",
 					"royalties",
-					"freeMinting"
+					"freeMinting",
+					"draft"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -98,6 +116,10 @@
 					"fileUrl": {
 						"type": "string"
 					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
 					"title": {
 						"type": "string"
 					},
@@ -111,15 +133,20 @@
 					"freeMinting": {
 						"type": "boolean"
 					},
+					"draft": {
+						"type": "boolean"
+					},
 					"id": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"fileUrl",
+					"price",
 					"title",
 					"royalties",
 					"freeMinting",
+					"draft",
 					"id"
 				],
 				"type": "object",
