@@ -34,7 +34,7 @@ export default class CreatorService {
     this.validateRoyalties(body.royalties);
     let collectible = new Collectible();
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId']);
-    collectible = { ...collectible, userId, accountId, ...bodyGuard };
+    collectible = { ...collectible, userId, accountId, ...bodyGuard } as Collectible;
     const res = await this.collectibleRepository.save(collectible);
     return { status: 'Done', transactionId: res.transactionId };
   }

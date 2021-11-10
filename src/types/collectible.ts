@@ -14,7 +14,7 @@ export interface CreateCollectibleBody {
   fileUrl: string;
   price: number;
   title: string;
-  description?: string;
+  description?: string | null;
   royalties: number;
   freeMinting: boolean;
   draft: boolean;

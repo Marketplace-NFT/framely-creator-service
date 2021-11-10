@@ -71,7 +71,8 @@
 						"type": "string"
 					},
 					"description": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"royalties": {
 						"type": "number",
@@ -124,7 +125,8 @@
 						"type": "string"
 					},
 					"description": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"royalties": {
 						"type": "number",
