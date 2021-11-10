@@ -1,7 +1,7 @@
 {
-  "name": "framely-user-service",
+  "name": "framely-creator-service",
   "version": "1.0.0",
-  "description": "User Service",
+  "description": "Creator Service",
   "main": "index.js",
   "basePath": "/api/creator",
   "scripts": {

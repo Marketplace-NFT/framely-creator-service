@@ -2,7 +2,7 @@ import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '@customtypes/baseEntity';
 
 @Entity()
-export class Collectible extends BaseEntity {
+export class Product extends BaseEntity {
   @Column({ type: 'varchar', length: 200, select: false })
   public userId!: string;
 

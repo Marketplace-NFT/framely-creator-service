@@ -6,7 +6,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"CollectibleResponse": {
+			"ProductResponse": {
 				"properties": {
 					"fileUrl": {
 						"type": "string"
@@ -43,7 +43,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CreateCollectibleResponse": {
+			"CreateProductResponse": {
 				"properties": {
 					"status": {
 						"type": "string"
@@ -58,7 +58,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CreateCollectibleBody": {
+			"CreateProductBody": {
 				"properties": {
 					"fileUrl": {
 						"type": "string"
@@ -96,23 +96,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UpdateCollectibleResponse": {
+			"UpdateProductResponse": {
 				"properties": {
 					"status": {
 						"type": "string"
 					},
-					"collectibleId": {
+					"ProductId": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"status",
-					"collectibleId"
+					"ProductId"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UpdateCollectibleBody": {
+			"UpdateProductBody": {
 				"properties": {
 					"fileUrl": {
 						"type": "string"
@@ -154,18 +154,18 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"DeleteCollectibleResponse": {
+			"DeleteProductResponse": {
 				"properties": {
 					"status": {
 						"type": "string"
 					},
-					"collectibleId": {
+					"ProductId": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"status",
-					"collectibleId"
+					"ProductId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -180,9 +180,9 @@
 		}
 	},
 	"info": {
-		"title": "framely-user-service",
+		"title": "framely-creator-service",
 		"version": "1.0.0",
-		"description": "User Service",
+		"description": "Creator Service",
 		"license": {
 			"name": "ISC"
 		},
@@ -190,171 +190,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/collectibles": {
-			"get": {
-				"operationId": "GetAllCollectibles",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/CollectibleResponse"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
-			},
-			"post": {
-				"operationId": "CreateCollectible",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CreateCollectibleResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateCollectibleBody"
-							}
-						}
-					}
-				}
-			},
-			"put": {
-				"operationId": "UpdateCollectible",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UpdateCollectibleResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateCollectibleBody"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/collectibles/{id}": {
-			"get": {
-				"operationId": "GetCollectible",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CollectibleResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"delete": {
-				"operationId": "DeleteCollectible",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/DeleteCollectibleResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/": {
 			"get": {
 				"operationId": "Index",
@@ -380,6 +215,171 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/products": {
+			"get": {
+				"operationId": "GetAllProducts",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateProductBody"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "UpdateProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateProductBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"operationId": "GetProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},
