@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, DeleteDateColumn } from 'typeorm';
 import { BaseEntity } from '@customtypes/baseEntity';
-import { Emotion } from './Emotion';
+import { Reaction } from './Reaction';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -34,6 +34,12 @@ export class Product extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   public draft!: boolean;
 
-  @OneToMany(() => Emotion, (emotion) => emotion.product)
-  public emotions!: Promise<Emotion[]>;
+  @Column({ type: 'varchar', length: 50, default: '' })
+  public status!: string;
+
+  @OneToMany(() => Reaction, (reaction) => reaction.product)
+  public reactions!: Promise<Reaction[]>;
+
+  @DeleteDateColumn({ select: false })
+  private deletedAt?: Date;
 }

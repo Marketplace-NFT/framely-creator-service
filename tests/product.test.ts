@@ -1,4 +1,4 @@
-import { removeGuardFields } from '../src/utils/guard';
+import { removeGuardFields } from './../src/utils/guard';
 import { CreateProductBody, UpdateProductBody } from '../src/types/product';
 import { statusCodes } from './httpStatusCode';
 import { request } from './supertest';
@@ -21,7 +21,7 @@ const data: CreateProductBody = {
 };
 
 describe('Test Creator Service', () => {
-  describe('Post /Products', () => {
+  describe('Post /products', () => {
     test('should return Product', async () => {
       const res = await request.post(`${basePath}/products`).auth(token, { type: 'bearer' }).send(data);
       expect(res.status).toBe(statusCodes.OK);
@@ -29,7 +29,7 @@ describe('Test Creator Service', () => {
     });
   });
 
-  describe('Get /Products', () => {
+  describe('Get /products', () => {
     test('should return Products', async () => {
       const res = await request.get(`${basePath}/products`);
       expect(res.status).toBe(statusCodes.OK);
@@ -38,7 +38,7 @@ describe('Test Creator Service', () => {
     });
   });
 
-  describe('Get /Products/id', () => {
+  describe('Get /products/id', () => {
     test('should return Product', async () => {
       const res = await request.get(`${basePath}/products/${product.id}`);
       expect(res.status).toBe(statusCodes.OK);
@@ -46,28 +46,37 @@ describe('Test Creator Service', () => {
     });
   });
 
-  describe('Get /Products/user', () => {
+  describe('Get /my-products', () => {
     test('should return Products', async () => {
-      const res = await request.get(`${basePath}/products/by-user`).auth(token, { type: 'bearer' });
+      const res = await request.get(`${basePath}/my-products`).auth(token, { type: 'bearer' });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
   });
 
-  describe('Put /Products', () => {
+  describe('Patch /products', () => {
     test('should return status "Done"', async () => {
-      const payload = removeGuardFields(product, ['createdAt', 'updatedAt', 'userId', 'accountId', 'transactionId']);
-      payload.title = 'test';
-      const res = await request.put(`${basePath}/products`).auth(token, { type: 'bearer' }).send(payload);
+      const payload = removeGuardFields(product, [
+        'createdAt',
+        'updatedAt',
+        'userId',
+        'accountId',
+        'transactionId',
+        'status',
+      ]);
+      payload.draft = false;
+
+      console.log(product);
+      const res = await request.patch(`${basePath}/products`).auth(token, { type: 'bearer' }).send(payload);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
   });
 
-  describe('Put /emotions', () => {
+  describe('Patch /reactions', () => {
     test('should return status "Love"', async () => {
       const res = await request
-        .put(`${basePath}/emotions`)
+        .patch(`${basePath}/reactions`)
         .auth(token, { type: 'bearer' })
         .send({ productId: product.id });
       expect(res.status).toBe(statusCodes.OK);
@@ -76,10 +85,10 @@ describe('Test Creator Service', () => {
     });
   });
 
-  describe('Put /emotions', () => {
+  describe('Patch /reactions', () => {
     test('should return status "Love"', async () => {
       const res = await request
-        .put(`${basePath}/emotions`)
+        .patch(`${basePath}/reactions`)
         .auth(token, { type: 'bearer' })
         .send({ productId: product.id });
       expect(res.status).toBe(statusCodes.OK);
@@ -88,9 +97,17 @@ describe('Test Creator Service', () => {
     });
   });
 
-  describe('Delete /Products/id', () => {
+  describe('Delete /products/id', () => {
     test('should return status "Done"', async () => {
       const res = await request.delete(`${basePath}/products/${product.id}`).auth(token, { type: 'bearer' });
+      expect(res.status).toBe(statusCodes.OK);
+      expect(res.body).toBeDefined();
+    });
+  });
+
+  describe('Patch /products/id', () => {
+    test('should return status "Done"', async () => {
+      const res = await request.patch(`${basePath}/restore-product/${product.id}`).auth(token, { type: 'bearer' });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });

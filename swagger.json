@@ -6,30 +6,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"UpdateEmotionResponse": {
-				"properties": {
-					"message": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateEmotionRequest": {
-				"properties": {
-					"productId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"productId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ProductResponse": {
 				"properties": {
 					"fileUrl": {
@@ -125,13 +101,13 @@
 					"status": {
 						"type": "string"
 					},
-					"ProductId": {
+					"productId": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"status",
-					"ProductId"
+					"productId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -183,13 +159,53 @@
 					"status": {
 						"type": "string"
 					},
-					"ProductId": {
+					"productId": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"status",
-					"ProductId"
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RestoreProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReactionResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReactionRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"productId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -214,42 +230,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/emotions": {
-			"put": {
-				"operationId": "UpdateEmotion",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UpdateEmotionResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Emotion"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateEmotionRequest"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/": {
 			"get": {
 				"operationId": "Index",
@@ -277,7 +257,7 @@
 				"parameters": []
 			}
 		},
-		"/products/by-user": {
+		"/my-products": {
 			"get": {
 				"operationId": "GetAllProductsByUser",
 				"responses": {
@@ -303,7 +283,16 @@
 						"jwt": []
 					}
 				],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/products": {
@@ -328,7 +317,16 @@
 					"Product"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "CreateProduct",
@@ -364,7 +362,7 @@
 					}
 				}
 			},
-			"put": {
+			"patch": {
 				"operationId": "UpdateProduct",
 				"responses": {
 					"200": {
@@ -461,6 +459,77 @@
 						}
 					}
 				]
+			}
+		},
+		"/restore-product/{id}": {
+			"patch": {
+				"operationId": "RestoreProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestoreProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/reactions": {
+			"patch": {
+				"operationId": "UpdateReaction",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateReactionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reaction"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateReactionRequest"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

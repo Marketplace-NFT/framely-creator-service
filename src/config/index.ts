@@ -6,16 +6,9 @@ const baseConfig = {
   basePath: process.env.npm_package_basePath,
   CORS_ORIGIN: process.env.CORS_ORIGIN,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1d',
-  JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY || '',
   JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY || '',
   USE_LOG_FILE: Boolean(process.env.USE_LOG_FILE),
 };
-
-if (process.env.JWT_PRIVATE_KEY_FILE) {
-  // read file one time when app loaded
-  const privateKey = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILE, 'utf8');
-  baseConfig.JWT_PRIVATE_KEY = privateKey;
-}
 
 if (process.env.JWT_PUBLIC_KEY_FILE) {
   // read file one time when app loaded

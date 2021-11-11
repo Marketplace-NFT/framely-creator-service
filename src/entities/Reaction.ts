@@ -1,16 +1,13 @@
-import { BaseEntity } from '@customtypes/baseEntity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { BaseEntity } from '@customtypes/baseEntity';
 import { Product } from './Product';
 
 @Entity()
-export class Emotion extends BaseEntity {
+export class Reaction extends BaseEntity {
   @Column({ type: 'varchar', length: 200 })
   public userId!: string;
 
-  @Column({ type: 'varchar', length: 200 })
-  public accountId!: string;
-
-  @ManyToOne(() => Product, (product) => product.emotions)
+  @ManyToOne(() => Product, (product) => product.reactions)
   @JoinColumn()
   public product!: Promise<Product>;
 

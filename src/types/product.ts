@@ -31,10 +31,21 @@ export interface UpdateProductBody extends CreateProductBody {
 
 export interface UpdateProductResponse {
   status: string;
-  ProductId: string;
+  productId: string;
 }
 
 export interface DeleteProductResponse {
   status: string;
-  ProductId: string;
+  productId: string;
+}
+
+export interface RestoreProductResponse {
+  status: string;
+  productId: string;
+}
+
+export interface Paginate {
+  keyword?: string;
+  take?: number;
+  skip?: number;
 }
