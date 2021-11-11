@@ -12,14 +12,18 @@ export default class ProductService {
     this.productRepository = getRepository(Product);
   }
 
-  public async getAllProducts(userId: string, accountId: string): Promise<ProductResponse[]> {
-    return await this.productRepository.find({ userId, accountId });
+  public async getAllProducts(): Promise<ProductResponse[]> {
+    return await this.productRepository.find({});
   }
 
-  public async getProduct(userId: string, accountId: string, id: string): Promise<ProductResponse> {
-    const Product = await this.productRepository.findOne({ id, userId, accountId });
+  public async getProduct(id: string): Promise<ProductResponse> {
+    const Product = await this.productRepository.findOne({ where: { id }, relations: ['emotions'] });
     if (!Product) throw new EntityNotFoundError('Product not found');
     return Product;
+  }
+
+  public async getAllProductsByUser(userId: string, accountId: string): Promise<ProductResponse[]> {
+    return await this.productRepository.find({ userId, accountId });
   }
 
   private validateRoyalties(royalties: number): void {

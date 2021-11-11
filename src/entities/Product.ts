@@ -1,12 +1,13 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '@customtypes/baseEntity';
+import { Emotion } from './Emotion';
 
 @Entity()
 export class Product extends BaseEntity {
-  @Column({ type: 'varchar', length: 200, select: false })
+  @Column({ type: 'varchar', length: 200 })
   public userId!: string;
 
-  @Column({ type: 'varchar', length: 200, select: false })
+  @Column({ type: 'varchar', length: 200 })
   public accountId!: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
@@ -32,4 +33,7 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'boolean', default: false })
   public draft!: boolean;
+
+  @OneToMany(() => Emotion, (emotion) => emotion.product)
+  public emotions!: Promise<Emotion[]>;
 }

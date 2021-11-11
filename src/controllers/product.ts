@@ -33,24 +33,32 @@ export class ProductController extends Controller {
     this.productService = new ProductService();
   }
 
-  @Get('/')
+  // Get all products by user/creator
+  @Get('/by-user')
   @Tags('Product')
   @Security('jwt')
   @Response<ProductResponse[]>('200', 'OK')
   @SuccessResponse('200', 'OK')
-  public async getAllProducts(@Request() request: AuthedRequest): Promise<ProductResponse[]> {
+  public async getAllProductsByUser(@Request() request: AuthedRequest): Promise<ProductResponse[]> {
     const { userId, accountId } = request.auth;
-    return this.productService.getAllProducts(userId, accountId);
+    return this.productService.getAllProductsByUser(userId, accountId);
+  }
+
+  // Get all products in market place
+  @Get('/')
+  @Tags('Product')
+  @Response<ProductResponse[]>('200', 'OK')
+  @SuccessResponse('200', 'OK')
+  public async getAllProducts(): Promise<ProductResponse[]> {
+    return this.productService.getAllProducts();
   }
 
   @Get('/{id}')
   @Tags('Product')
-  @Security('jwt')
   @Response<ProductResponse>('200', 'OK')
   @SuccessResponse('200', 'OK')
-  public async getProduct(@Request() request: AuthedRequest, @Path() id: string): Promise<ProductResponse> {
-    const { userId, accountId } = request.auth;
-    return this.productService.getProduct(userId, accountId, id);
+  public async getProduct(@Path() id: string): Promise<ProductResponse> {
+    return this.productService.getProduct(id);
   }
 
   @Post('/')

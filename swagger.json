@@ -6,6 +6,30 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"UpdateEmotionResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateEmotionRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ProductResponse": {
 				"properties": {
 					"fileUrl": {
@@ -190,6 +214,42 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/emotions": {
+			"put": {
+				"operationId": "UpdateEmotion",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateEmotionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emotion"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateEmotionRequest"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/": {
 			"get": {
 				"operationId": "Index",
@@ -217,9 +277,9 @@
 				"parameters": []
 			}
 		},
-		"/products": {
+		"/products/by-user": {
 			"get": {
-				"operationId": "GetAllProducts",
+				"operationId": "GetAllProductsByUser",
 				"responses": {
 					"200": {
 						"description": "OK",
@@ -243,6 +303,31 @@
 						"jwt": []
 					}
 				],
+				"parameters": []
+			}
+		},
+		"/products": {
+			"get": {
+				"operationId": "GetAllProducts",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [],
 				"parameters": []
 			},
 			"post": {
@@ -332,11 +417,7 @@
 				"tags": [
 					"Product"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",

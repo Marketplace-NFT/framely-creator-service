@@ -8,7 +8,7 @@ beforeAll(async () => await create());
 afterAll(async () => await close());
 
 const basePath = process.env.npm_package_basePath;
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MjNiMTM2My00ODg2LTQyODktOGE0Ny0yZjJlZTEyMTA0ZDciLCJhY2NvdW50SWQiOiJmYjJiYjQyMS1mMTE4LTQyOWUtYjI1Yy1lZmI3YTJhMjE1ZWQiLCJwdWJsaWNBZGRyZXNzIjoiMHhDQjJEQmM0NUU0YjE2Njg0YzE1QzY0ZTc3OGVGNTg5RGYwNDYwOGVmIiwiaWF0IjoxNjM2NDQ4MzQyLCJleHAiOjE2MzY1MzQ3NDJ9.w9o3qG7hZYu7CKazmTwfZU01Wc1viGJ-aqBcDyM6qoqBj6tw4Pm_Ti8oVWtfJgoKY8vjRJbXUzwCSKLtWmWgWjf3E80mH48ApmSz9sE2km_sKQHa9T9R_V3SNPUdD0jOwBzouru2dMUe1KKQ2hZkLUIiLnUBcLEHQfFLbGIDDYo`;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NTdkMTA4Mi0xMmRlLTQ5MDMtOTljMS1lMzZmNzYwN2U3ODYiLCJhY2NvdW50SWQiOiI1ZjdmZjViOS1lZWRlLTRjMDYtODc0Ni01MGJhYjg2YzI0OWEiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2NjA5MDc1LCJleHAiOjE2MzY2OTU0NzV9.RvKSIkZPBHEWiMmKtwwwOpfJxJxC6bk5J6LrwdEoQXX6v0mK7jGcmpGGEWB2IW151i9yJ9DIy5sNRNMlTz_x4I5Hvt-0IKJWAspqrwCcLwW6M16y-pr40fcwBo4m9zTyYk-kP5PSFJQt6vcxWl_X_WtjOooX7NoeSI2vPYC3Q9k`;
 let product: UpdateProductBody;
 const data: CreateProductBody = {
   fileUrl: 'test',
@@ -28,31 +28,66 @@ describe('Test Creator Service', () => {
       expect(res.body).toBeDefined();
     });
   });
+
   describe('Get /Products', () => {
     test('should return Products', async () => {
-      const res = await request.get(`${basePath}/products`).auth(token, { type: 'bearer' });
+      const res = await request.get(`${basePath}/products`);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
       product = res.body.find((v: UpdateProductBody) => v.title === data.title);
     });
   });
+
   describe('Get /Products/id', () => {
     test('should return Product', async () => {
-      const res = await request.get(`${basePath}/products/${product.id}`).auth(token, { type: 'bearer' });
+      const res = await request.get(`${basePath}/products/${product.id}`);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
   });
+
+  describe('Get /Products/user', () => {
+    test('should return Products', async () => {
+      const res = await request.get(`${basePath}/products/by-user`).auth(token, { type: 'bearer' });
+      expect(res.status).toBe(statusCodes.OK);
+      expect(res.body).toBeDefined();
+    });
+  });
+
   describe('Put /Products', () => {
     test('should return status "Done"', async () => {
       const payload = removeGuardFields(product, ['createdAt', 'updatedAt', 'userId', 'accountId', 'transactionId']);
       payload.title = 'test';
-      console.log(payload);
       const res = await request.put(`${basePath}/products`).auth(token, { type: 'bearer' }).send(payload);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
   });
+
+  describe('Put /emotions', () => {
+    test('should return status "Love"', async () => {
+      const res = await request
+        .put(`${basePath}/emotions`)
+        .auth(token, { type: 'bearer' })
+        .send({ productId: product.id });
+      expect(res.status).toBe(statusCodes.OK);
+      expect(res.body).toBeDefined();
+      expect(res.body.message).toBe('Loved');
+    });
+  });
+
+  describe('Put /emotions', () => {
+    test('should return status "Love"', async () => {
+      const res = await request
+        .put(`${basePath}/emotions`)
+        .auth(token, { type: 'bearer' })
+        .send({ productId: product.id });
+      expect(res.status).toBe(statusCodes.OK);
+      expect(res.body).toBeDefined();
+      expect(res.body.message).toBe('Unloved');
+    });
+  });
+
   describe('Delete /Products/id', () => {
     test('should return status "Done"', async () => {
       const res = await request.delete(`${basePath}/products/${product.id}`).auth(token, { type: 'bearer' });
