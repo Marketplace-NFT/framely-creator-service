@@ -1,23 +1,25 @@
-import { Column, Entity, OneToMany, DeleteDateColumn } from 'typeorm';
+import { Column, Entity, OneToMany, DeleteDateColumn, Index } from 'typeorm';
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Reaction } from './Reaction';
+import { File, Price } from '@customtypes/product';
 
 @Entity()
 export class Product extends BaseEntity {
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'uuid' })
   public userId!: string;
 
   @Column({ type: 'varchar', length: 200 })
   public accountId!: string;
 
+  @Index({ unique: true })
   @Column({ type: 'varchar', length: 200, nullable: true })
   public transactionId?: string;
 
-  @Column({ type: 'varchar', length: 200 })
-  public fileUrl!: string;
+  @Column({ type: 'json' })
+  public file!: File;
 
-  @Column({ type: 'integer', default: 0 })
-  public price!: number;
+  @Column(() => Price)
+  public price!: Price;
 
   @Column({ type: 'varchar', length: 200 })
   public title!: string;

@@ -8,11 +8,11 @@ beforeAll(async () => await create());
 afterAll(async () => await close());
 
 const basePath = process.env.npm_package_basePath;
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NTdkMTA4Mi0xMmRlLTQ5MDMtOTljMS1lMzZmNzYwN2U3ODYiLCJhY2NvdW50SWQiOiI1ZjdmZjViOS1lZWRlLTRjMDYtODc0Ni01MGJhYjg2YzI0OWEiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2NjA5MDc1LCJleHAiOjE2MzY2OTU0NzV9.RvKSIkZPBHEWiMmKtwwwOpfJxJxC6bk5J6LrwdEoQXX6v0mK7jGcmpGGEWB2IW151i9yJ9DIy5sNRNMlTz_x4I5Hvt-0IKJWAspqrwCcLwW6M16y-pr40fcwBo4m9zTyYk-kP5PSFJQt6vcxWl_X_WtjOooX7NoeSI2vPYC3Q9k`;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZWNlMjczOC01YjU2LTRiYTQtOGZhNC1iNTQ1ZGMzZmQ0NjQiLCJhY2NvdW50SWQiOiI3Njc5OTJjNy0yYzljLTRjM2UtYWI5Zi03ZWQxYTNlOThkNjIiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2NzExMjY4LCJleHAiOjE2MzY3OTc2Njh9.DQJXJYNrjimjvdat3qfimrOM43kwOqKmmEL4EbhKpGez172Cu6jJAzXX2MaqVJzM48jIBhVK4Vgha_pM905QGy9DZMXSpn0o4dW-PHxcQETtw6vV4Ns9Ye0zB2Fp5bNRKA2flWsS3Bf_Sur9DkDyXf2D8ZvYZz-CVanzXlNRqbQ`;
 let product: UpdateProductBody;
 const data: CreateProductBody = {
-  fileUrl: 'test',
-  price: 0,
+  file: { name: 'test', url: 'test', type: 'image/png' },
+  price: { value: 1, currency: 'ETH' },
   title: parseInt(`${Math.random() * 10000000}`).toString(),
   description: 'test',
   royalties: 0,
