@@ -76,7 +76,7 @@ class App {
     if (this.isProduction) return;
     try {
       const swaggerDoc: JsonObject = require(path.resolve(__dirname, '../../', 'swagger.json'));
-      this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+      this.app.use(`${config.basePath}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDoc));
     } catch (error) {
       console.error(error);
     }

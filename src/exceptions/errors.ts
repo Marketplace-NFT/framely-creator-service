@@ -41,3 +41,12 @@ export class FailedValidationError extends HttpError {
     super(message);
   }
 }
+
+export class BadRequest extends HttpError {
+  public status = 400;
+  public code = 'BadRequest';
+
+  public constructor() {
+    super('BadRequest');
+  }
+}

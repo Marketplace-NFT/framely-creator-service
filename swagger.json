@@ -5,7 +5,212 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"ProductResponse": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					},
+					"draft": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"price",
+					"title",
+					"royalties",
+					"freeMinting",
+					"draft"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"transactionId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateProductBody": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					},
+					"draft": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"price",
+					"title",
+					"royalties",
+					"freeMinting",
+					"draft"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateProductBody": {
+				"properties": {
+					"fileUrl": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"royalties": {
+						"type": "number",
+						"format": "double"
+					},
+					"freeMinting": {
+						"type": "boolean"
+					},
+					"draft": {
+						"type": "boolean"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"fileUrl",
+					"price",
+					"title",
+					"royalties",
+					"freeMinting",
+					"draft",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DeleteProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RestoreProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReactionResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReactionRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
 		"securitySchemes": {
 			"jwt": {
 				"type": "apiKey",
@@ -15,9 +220,9 @@
 		}
 	},
 	"info": {
-		"title": "framely-user-service",
+		"title": "framely-creator-service",
 		"version": "1.0.0",
-		"description": "User Service",
+		"description": "Creator Service",
 		"license": {
 			"name": "ISC"
 		},
@@ -25,28 +230,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/creator": {
-			"get": {
-				"operationId": "GetProfile",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Creator"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
 		"/": {
 			"get": {
 				"operationId": "Index",
@@ -73,11 +256,286 @@
 				"security": [],
 				"parameters": []
 			}
+		},
+		"/my-products": {
+			"get": {
+				"operationId": "GetAllProductsByUser",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products": {
+			"get": {
+				"operationId": "GetAllProducts",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateProductBody"
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"operationId": "UpdateProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateProductBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"operationId": "GetProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/restore-product/{id}": {
+			"patch": {
+				"operationId": "RestoreProduct",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestoreProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/reactions": {
+			"patch": {
+				"operationId": "UpdateReaction",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateReactionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reaction"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateReactionRequest"
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "/api/creator"
 		}
 	]
 }

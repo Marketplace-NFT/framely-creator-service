@@ -1,11 +1,7 @@
-import fs from 'fs';
 import express from 'express';
-import jwt, { VerifyOptions } from 'jsonwebtoken';
 import { UnauthorizedError } from '@exceptions/errors';
-import config from '../config';
-import { AuthedRequest, AuthInfo } from '@customtypes/auth';
-
-const publicKey = fs.readFileSync(config.JWT_PUBLIC_KEY, 'utf8');
+import { AuthedRequest } from '@customtypes/auth';
+import { verifyToken } from '@utils/token';
 
 export async function expressAuthentication(
   request: express.Request,
@@ -13,17 +9,13 @@ export async function expressAuthentication(
   _scopes?: string[],
 ): Promise<boolean> {
   if (securityName !== 'jwt') return true;
-  const token = request.headers['authorization'] as string;
-  if (!token) throw new UnauthorizedError();
+  const rawToken = request.headers['authorization'] as string;
+  if (!rawToken) throw new UnauthorizedError();
 
   try {
-    const verifyOptions: VerifyOptions = {
-      maxAge: config.JWT_EXPIRES_IN,
-      algorithms: ['RS256'],
-    };
-    const bearer = token.replace('Bearer ', '');
-    const auth = jwt.verify(bearer, publicKey, verifyOptions) as AuthInfo;
-    (request as AuthedRequest).auth = auth;
+    const token = rawToken.replace('Bearer ', '');
+    const { userId, accountId, publicAddress } = verifyToken(token);
+    (request as AuthedRequest).auth = { userId, accountId, publicAddress };
     return true;
   } catch (error) {
     throw new Error(error as string);
