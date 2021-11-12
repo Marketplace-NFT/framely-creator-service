@@ -25,6 +25,7 @@ import {
   RestoreProductResponse,
 } from '../types/product';
 import ProductService from '@services/product';
+import { getPagination } from '@utils/query';
 
 @Route('')
 export class ProductController extends Controller {
@@ -46,7 +47,8 @@ export class ProductController extends Controller {
     @Query() query?: string,
   ): Promise<ProductResponse[]> {
     const { userId } = request.auth;
-    return this.productService.getAllProductsByUser(userId, query);
+    const paginate = getPagination(query);
+    return this.productService.getAllProductsByUser(userId, paginate);
   }
 
   // Get all products in market place
@@ -55,7 +57,8 @@ export class ProductController extends Controller {
   @Response<ProductResponse[]>('200', 'OK')
   @SuccessResponse('200', 'OK')
   public async getAllProducts(@Query() query?: string): Promise<ProductResponse[]> {
-    return this.productService.getAllProducts(query);
+    const paginate = getPagination(query);
+    return this.productService.getAllProducts(paginate);
   }
 
   @Get('/products/{id}')

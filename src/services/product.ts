@@ -10,7 +10,6 @@ import { Product } from '@entities/Product';
 import { ProductResponse, CreateProductResponse, UpdateProductResponse } from '@customtypes/product';
 import { BadRequest, EntityNotFoundError } from '@exceptions/errors';
 import { removeGuardFields } from '@utils/guard';
-import { parseQuery } from '@utils/query';
 export default class ProductService {
   private productRepository: Repository<Product>;
 
@@ -18,32 +17,20 @@ export default class ProductService {
     this.productRepository = getRepository(Product);
   }
 
-  private paginate(query?: string): Paginate {
-    const parsed = parseQuery(query || '');
-    const { keyword, take, skip } = parsed;
-    return {
-      take: take ? Number(parsed.take) : 25,
-      skip: skip ? Number(parsed.skip) : 0,
-      keyword: keyword ? keyword.toString() : '',
-    };
-  }
-
-  public async getAllProducts(query?: string): Promise<ProductResponse[]> {
-    const options = this.paginate(query);
+  public async getAllProducts(paginate: Paginate): Promise<ProductResponse[]> {
     return await this.productRepository.find({
-      where: { title: Like(`%${options.keyword}%`) },
-      take: options.take,
-      skip: options.skip,
+      where: { title: Like(`%${paginate.keyword}%`) },
+      take: paginate.take,
+      skip: paginate.skip,
       order: { createdAt: 'DESC' },
     });
   }
 
-  public async getAllProductsByUser(userId: string, query?: string): Promise<ProductResponse[]> {
-    const options = this.paginate(query);
+  public async getAllProductsByUser(userId: string, paginate: Paginate): Promise<ProductResponse[]> {
     return (await this.productRepository.find({
-      where: { userId, title: Like(`%${options.keyword}%`) },
-      take: options.take,
-      skip: options.skip,
+      where: { userId, title: Like(`%${paginate.keyword}%`) },
+      take: paginate.take,
+      skip: paginate.skip,
       order: { createdAt: 'DESC' },
     })) as ProductResponse[];
   }
@@ -69,7 +56,7 @@ export default class ProductService {
     product = { ...product, userId, accountId, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);
-    return { status: res.status, transactionId: res.transactionId };
+    return { status: res.status, transactionId: res.transactionId, productId: res.id };
   }
 
   public async updateProduct(
@@ -84,7 +71,7 @@ export default class ProductService {
     product = { ...product, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);
-    return { status: res.status, productId: res.id };
+    return { status: res.status, transactionId: res.transactionId, productId: res.id };
   }
 
   public async deleteProduct(userId: string, id: string): Promise<DeleteProductResponse> {

@@ -1,8 +1,9 @@
 import { Product } from '@entities/Product';
+import { Column } from 'typeorm';
 
 export interface ProductResponse extends Partial<Product> {
-  fileUrl: string;
-  price: number;
+  file: File;
+  price: Price;
   title: string;
   description?: string;
   royalties: number;
@@ -11,8 +12,8 @@ export interface ProductResponse extends Partial<Product> {
 }
 
 export interface CreateProductBody {
-  fileUrl: string;
-  price: number;
+  file: File;
+  price: Price;
   title: string;
   description?: string | null;
   royalties: number;
@@ -23,6 +24,7 @@ export interface CreateProductBody {
 export interface CreateProductResponse {
   status: string;
   transactionId?: string;
+  productId: string;
 }
 
 export interface UpdateProductBody extends CreateProductBody {
@@ -31,6 +33,7 @@ export interface UpdateProductBody extends CreateProductBody {
 
 export interface UpdateProductResponse {
   status: string;
+  transactionId?: string;
   productId: string;
 }
 
@@ -48,4 +51,18 @@ export interface Paginate {
   keyword?: string;
   take?: number;
   skip?: number;
+}
+
+export interface File {
+  name: string;
+  url: string;
+  type: string;
+}
+
+export abstract class Price {
+  @Column({ type: 'decimal' })
+  value!: number;
+
+  @Column()
+  currency!: string;
 }

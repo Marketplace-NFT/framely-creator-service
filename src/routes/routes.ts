@@ -16,11 +16,30 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "File": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "url": {"dataType":"string","required":true},
+            "type": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Price": {
+        "dataType": "refObject",
+        "properties": {
+            "value": {"dataType":"double","required":true},
+            "currency": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ProductResponse": {
         "dataType": "refObject",
         "properties": {
-            "fileUrl": {"dataType":"string","required":true},
-            "price": {"dataType":"double","required":true},
+            "file": {"ref":"File","required":true},
+            "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string"},
             "royalties": {"dataType":"double","required":true},
@@ -35,6 +54,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "status": {"dataType":"string","required":true},
             "transactionId": {"dataType":"string"},
+            "productId": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -42,8 +62,8 @@ const models: TsoaRoute.Models = {
     "CreateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "fileUrl": {"dataType":"string","required":true},
-            "price": {"dataType":"double","required":true},
+            "file": {"ref":"File","required":true},
+            "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"double","required":true},
@@ -57,6 +77,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "status": {"dataType":"string","required":true},
+            "transactionId": {"dataType":"string"},
             "productId": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -65,8 +86,8 @@ const models: TsoaRoute.Models = {
     "UpdateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "fileUrl": {"dataType":"string","required":true},
-            "price": {"dataType":"double","required":true},
+            "file": {"ref":"File","required":true},
+            "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"double","required":true},

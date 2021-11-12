@@ -6,14 +6,50 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"ProductResponse": {
+			"File": {
 				"properties": {
-					"fileUrl": {
+					"name": {
 						"type": "string"
 					},
-					"price": {
+					"url": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"url",
+					"type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Price": {
+				"properties": {
+					"value": {
 						"type": "number",
 						"format": "double"
+					},
+					"currency": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"value",
+					"currency"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductResponse": {
+				"properties": {
+					"file": {
+						"$ref": "#/components/schemas/File"
+					},
+					"price": {
+						"$ref": "#/components/schemas/Price"
 					},
 					"title": {
 						"type": "string"
@@ -33,7 +69,7 @@
 					}
 				},
 				"required": [
-					"fileUrl",
+					"file",
 					"price",
 					"title",
 					"royalties",
@@ -50,22 +86,25 @@
 					},
 					"transactionId": {
 						"type": "string"
+					},
+					"productId": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"status"
+					"status",
+					"productId"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
 			"CreateProductBody": {
 				"properties": {
-					"fileUrl": {
-						"type": "string"
+					"file": {
+						"$ref": "#/components/schemas/File"
 					},
 					"price": {
-						"type": "number",
-						"format": "double"
+						"$ref": "#/components/schemas/Price"
 					},
 					"title": {
 						"type": "string"
@@ -86,7 +125,7 @@
 					}
 				},
 				"required": [
-					"fileUrl",
+					"file",
 					"price",
 					"title",
 					"royalties",
@@ -99,6 +138,9 @@
 			"UpdateProductResponse": {
 				"properties": {
 					"status": {
+						"type": "string"
+					},
+					"transactionId": {
 						"type": "string"
 					},
 					"productId": {
@@ -114,12 +156,11 @@
 			},
 			"UpdateProductBody": {
 				"properties": {
-					"fileUrl": {
-						"type": "string"
+					"file": {
+						"$ref": "#/components/schemas/File"
 					},
 					"price": {
-						"type": "number",
-						"format": "double"
+						"$ref": "#/components/schemas/Price"
 					},
 					"title": {
 						"type": "string"
@@ -143,7 +184,7 @@
 					}
 				},
 				"required": [
-					"fileUrl",
+					"file",
 					"price",
 					"title",
 					"royalties",
