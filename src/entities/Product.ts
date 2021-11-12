@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, DeleteDateColumn, Index } from 'typeorm';
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Reaction } from './Reaction';
-import { File, Price } from '@customtypes/product';
+import { Asset, Price } from '@customtypes/product';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -16,7 +16,7 @@ export class Product extends BaseEntity {
   public transactionId?: string;
 
   @Column({ type: 'json' })
-  public file!: File;
+  public asset!: Asset;
 
   @Column(() => Price)
   public price!: Price;

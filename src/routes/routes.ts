@@ -16,7 +16,7 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "File": {
+    "Asset": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
@@ -38,7 +38,7 @@ const models: TsoaRoute.Models = {
     "ProductResponse": {
         "dataType": "refObject",
         "properties": {
-            "file": {"ref":"File","required":true},
+            "asset": {"ref":"Asset","required":true},
             "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string"},
@@ -62,7 +62,7 @@ const models: TsoaRoute.Models = {
     "CreateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "file": {"ref":"File","required":true},
+            "asset": {"ref":"Asset","required":true},
             "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
@@ -86,7 +86,7 @@ const models: TsoaRoute.Models = {
     "UpdateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "file": {"ref":"File","required":true},
+            "asset": {"ref":"Asset","required":true},
             "price": {"ref":"Price","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
