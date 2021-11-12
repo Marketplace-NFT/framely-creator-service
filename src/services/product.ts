@@ -7,7 +7,7 @@ import {
   UpdateProductBody,
 } from '../types/product';
 import { Product } from '@entities/Product';
-import { ProductResponse, CreateProductResponse, UpdateProductResponse } from '@customtypes/Product';
+import { ProductResponse, CreateProductResponse, UpdateProductResponse } from '@customtypes/product';
 import { BadRequest, EntityNotFoundError } from '@exceptions/errors';
 import { removeGuardFields } from '@utils/guard';
 import { parseQuery } from '@utils/query';

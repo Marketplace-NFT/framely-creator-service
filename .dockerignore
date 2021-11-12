@@ -1,9 +1,8 @@
+.git
+.github
 node_modules
 dist
 coverage
 .cache
-backups
 .env
 jwt*
-public.key
-private.key

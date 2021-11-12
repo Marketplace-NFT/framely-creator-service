@@ -24,25 +24,14 @@ networks:
 
 
 services:
-  postgres:
-    image: hdwhub/postgres:13
+  creator:
+    image: hdwhub/framely-creator-service:latest
     volumes:
-      - /mnt/nfs/apps/framely/pgdata:/var/lib/postgresql/data
-      - /mnt/nfs/apps/framely/backups:/backups
-    env_file:
-      - /mnt/nfs/apps/framely/config/.postgres
-    <<: *networks
-    <<: *deploy
-
-  user:
-    image: hdwhub/framely-user-service:latest
-    volumes:
-      - /mnt/nfs/apps/framely/config/jwtkey:/usr/src/app/jwtkey:ro
       - /mnt/nfs/apps/framely/config/jwtkey.pub:/usr/src/app/jwtkey.pub:ro
       - /mnt/nfs/apps/framely/logs:/usr/src/app/logs:z
     env_file:
-      - /mnt/nfs/apps/framely/config/user.env
+      - /mnt/nfs/apps/framely/config/creator.env
     <<: *networks
     <<: *deploy
     ports:
-      - 3025:3000
+      - 3032:3000
