@@ -5,7 +5,7 @@ import { Asset } from '@customtypes/product';
 
 @Entity()
 export class Product extends BaseEntity {
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', nullable: true })
   public userId!: string;
 
   @Column({ type: 'varchar', length: 200 })
