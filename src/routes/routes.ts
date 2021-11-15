@@ -29,9 +29,9 @@ const models: TsoaRoute.Models = {
     "ProductResponse": {
         "dataType": "refObject",
         "properties": {
-            "asset": {"ref":"Asset","required":true},
-            "price": {"dataType":"double","required":true},
-            "currency": {"dataType":"string","required":true},
+            "asset": {"ref":"Asset"},
+            "price": {"dataType":"double"},
+            "currency": {"dataType":"string"},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string"},
             "royalties": {"dataType":"double","required":true},
@@ -54,9 +54,9 @@ const models: TsoaRoute.Models = {
     "CreateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "asset": {"ref":"Asset","required":true},
-            "price": {"dataType":"double","required":true},
-            "currency": {"dataType":"string","required":true},
+            "asset": {"dataType":"union","subSchemas":[{"ref":"Asset"},{"dataType":"enum","enums":[null]}]},
+            "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
+            "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"double","required":true},
@@ -79,9 +79,9 @@ const models: TsoaRoute.Models = {
     "UpdateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "asset": {"ref":"Asset","required":true},
-            "price": {"dataType":"double","required":true},
-            "currency": {"dataType":"string","required":true},
+            "asset": {"dataType":"union","subSchemas":[{"ref":"Asset"},{"dataType":"enum","enums":[null]}]},
+            "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
+            "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"double","required":true},

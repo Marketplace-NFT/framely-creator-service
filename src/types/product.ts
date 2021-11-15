@@ -1,9 +1,9 @@
 import { Product } from '@entities/Product';
 
 export interface ProductResponse extends Partial<Product> {
-  asset: Asset;
-  price: number;
-  currency: string;
+  asset?: Asset;
+  price?: number;
+  currency?: string;
   title: string;
   description?: string;
   royalties: number;
@@ -12,9 +12,9 @@ export interface ProductResponse extends Partial<Product> {
 }
 
 export interface CreateProductBody {
-  asset: Asset;
-  price: number;
-  currency: string;
+  asset?: Asset | null;
+  price?: number | null;
+  currency?: string | null;
   title: string;
   description?: string | null;
   royalties: number;

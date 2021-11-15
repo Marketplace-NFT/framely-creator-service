@@ -56,9 +56,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
-					"currency",
 					"title",
 					"royalties",
 					"freeMinting",
@@ -89,14 +86,21 @@
 			"CreateProductBody": {
 				"properties": {
 					"asset": {
-						"$ref": "#/components/schemas/Asset"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Asset"
+							}
+						],
+						"nullable": true
 					},
 					"price": {
 						"type": "number",
-						"format": "double"
+						"format": "double",
+						"nullable": true
 					},
 					"currency": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"title": {
 						"type": "string"
@@ -117,9 +121,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
-					"currency",
 					"title",
 					"royalties",
 					"freeMinting",
@@ -150,14 +151,21 @@
 			"UpdateProductBody": {
 				"properties": {
 					"asset": {
-						"$ref": "#/components/schemas/Asset"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Asset"
+							}
+						],
+						"nullable": true
 					},
 					"price": {
 						"type": "number",
-						"format": "double"
+						"format": "double",
+						"nullable": true
 					},
 					"currency": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"title": {
 						"type": "string"
@@ -181,9 +189,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
-					"currency",
 					"title",
 					"royalties",
 					"freeMinting",
