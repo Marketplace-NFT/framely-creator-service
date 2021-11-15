@@ -15,19 +15,19 @@ export class Product extends BaseEntity {
   @Column({ type: 'varchar', length: 200, nullable: true })
   public transactionId?: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', default: () => "'{}'" })
   public asset!: Asset;
 
   @Column(() => Price)
   public price!: Price;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 200, default: '' })
   public title!: string;
 
   @Column({ type: 'text', nullable: true })
   public description?: string;
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 0 })
   public royalties!: number;
 
   @Column({ type: 'boolean', default: true })
