@@ -15,7 +15,7 @@ export class Product extends BaseEntity {
   @Column({ type: 'varchar', length: 200, nullable: true })
   public transactionId?: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', default: () => "'{}'" })
   public asset!: Asset;
 
   @Column(() => Price)
