@@ -26,30 +26,17 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Price": {
-				"properties": {
-					"value": {
-						"type": "number",
-						"format": "double"
-					},
-					"currency": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"value",
-					"currency"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ProductResponse": {
 				"properties": {
 					"asset": {
 						"$ref": "#/components/schemas/Asset"
 					},
 					"price": {
-						"$ref": "#/components/schemas/Price"
+						"type": "number",
+						"format": "double"
+					},
+					"currency": {
+						"type": "string"
 					},
 					"title": {
 						"type": "string"
@@ -69,8 +56,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
 					"title",
 					"royalties",
 					"freeMinting",
@@ -101,10 +86,21 @@
 			"CreateProductBody": {
 				"properties": {
 					"asset": {
-						"$ref": "#/components/schemas/Asset"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Asset"
+							}
+						],
+						"nullable": true
 					},
 					"price": {
-						"$ref": "#/components/schemas/Price"
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"currency": {
+						"type": "string",
+						"nullable": true
 					},
 					"title": {
 						"type": "string"
@@ -125,8 +121,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
 					"title",
 					"royalties",
 					"freeMinting",
@@ -157,10 +151,21 @@
 			"UpdateProductBody": {
 				"properties": {
 					"asset": {
-						"$ref": "#/components/schemas/Asset"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Asset"
+							}
+						],
+						"nullable": true
 					},
 					"price": {
-						"$ref": "#/components/schemas/Price"
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"currency": {
+						"type": "string",
+						"nullable": true
 					},
 					"title": {
 						"type": "string"
@@ -184,8 +189,6 @@
 					}
 				},
 				"required": [
-					"asset",
-					"price",
 					"title",
 					"royalties",
 					"freeMinting",
