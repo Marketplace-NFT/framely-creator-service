@@ -1,9 +1,9 @@
 import { Product } from '@entities/Product';
-import { Column } from 'typeorm';
 
 export interface ProductResponse extends Partial<Product> {
   asset: Asset;
-  price: Price;
+  price: number;
+  currency: string;
   title: string;
   description?: string;
   royalties: number;
@@ -13,7 +13,8 @@ export interface ProductResponse extends Partial<Product> {
 
 export interface CreateProductBody {
   asset: Asset;
-  price: Price;
+  price: number;
+  currency: string;
   title: string;
   description?: string | null;
   royalties: number;
@@ -57,12 +58,4 @@ export interface Asset {
   name: string;
   url: string;
   type: string;
-}
-
-export abstract class Price {
-  @Column({ type: 'decimal' })
-  value!: number;
-
-  @Column()
-  currency!: string;
 }
