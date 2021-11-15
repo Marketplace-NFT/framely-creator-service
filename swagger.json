@@ -6,7 +6,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"File": {
+			"Asset": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -45,8 +45,8 @@
 			},
 			"ProductResponse": {
 				"properties": {
-					"file": {
-						"$ref": "#/components/schemas/File"
+					"asset": {
+						"$ref": "#/components/schemas/Asset"
 					},
 					"price": {
 						"$ref": "#/components/schemas/Price"
@@ -69,7 +69,7 @@
 					}
 				},
 				"required": [
-					"file",
+					"asset",
 					"price",
 					"title",
 					"royalties",
@@ -100,8 +100,8 @@
 			},
 			"CreateProductBody": {
 				"properties": {
-					"file": {
-						"$ref": "#/components/schemas/File"
+					"asset": {
+						"$ref": "#/components/schemas/Asset"
 					},
 					"price": {
 						"$ref": "#/components/schemas/Price"
@@ -125,7 +125,7 @@
 					}
 				},
 				"required": [
-					"file",
+					"asset",
 					"price",
 					"title",
 					"royalties",
@@ -156,8 +156,8 @@
 			},
 			"UpdateProductBody": {
 				"properties": {
-					"file": {
-						"$ref": "#/components/schemas/File"
+					"asset": {
+						"$ref": "#/components/schemas/Asset"
 					},
 					"price": {
 						"$ref": "#/components/schemas/Price"
@@ -184,7 +184,7 @@
 					}
 				},
 				"required": [
-					"file",
+					"asset",
 					"price",
 					"title",
 					"royalties",

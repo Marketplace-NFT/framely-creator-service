@@ -2,7 +2,7 @@ import { Product } from '@entities/Product';
 import { Column } from 'typeorm';
 
 export interface ProductResponse extends Partial<Product> {
-  file: File;
+  asset: Asset;
   price: Price;
   title: string;
   description?: string;
@@ -12,7 +12,7 @@ export interface ProductResponse extends Partial<Product> {
 }
 
 export interface CreateProductBody {
-  file: File;
+  asset: Asset;
   price: Price;
   title: string;
   description?: string | null;
@@ -53,7 +53,7 @@ export interface Paginate {
   skip?: number;
 }
 
-export interface File {
+export interface Asset {
   name: string;
   url: string;
   type: string;

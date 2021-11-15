@@ -11,7 +11,7 @@ const basePath = process.env.npm_package_basePath;
 const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZWNlMjczOC01YjU2LTRiYTQtOGZhNC1iNTQ1ZGMzZmQ0NjQiLCJhY2NvdW50SWQiOiI3Njc5OTJjNy0yYzljLTRjM2UtYWI5Zi03ZWQxYTNlOThkNjIiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM2NzExMjY4LCJleHAiOjE2MzY3OTc2Njh9.DQJXJYNrjimjvdat3qfimrOM43kwOqKmmEL4EbhKpGez172Cu6jJAzXX2MaqVJzM48jIBhVK4Vgha_pM905QGy9DZMXSpn0o4dW-PHxcQETtw6vV4Ns9Ye0zB2Fp5bNRKA2flWsS3Bf_Sur9DkDyXf2D8ZvYZz-CVanzXlNRqbQ`;
 let product: UpdateProductBody;
 const data: CreateProductBody = {
-  file: { name: 'test', url: 'test', type: 'image/png' },
+  asset: { name: 'test', url: 'test', type: 'image/png' },
   price: { value: 1, currency: 'ETH' },
   title: parseInt(`${Math.random() * 10000000}`).toString(),
   description: 'test',
