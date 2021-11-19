@@ -16,12 +16,16 @@
 					},
 					"type": {
 						"type": "string"
+					},
+					"previewUrl": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"name",
 					"url",
-					"type"
+					"type",
+					"previewUrl"
 				],
 				"type": "object",
 				"additionalProperties": false
