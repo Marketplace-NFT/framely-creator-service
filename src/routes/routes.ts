@@ -22,6 +22,7 @@ const models: TsoaRoute.Models = {
             "name": {"dataType":"string","required":true},
             "url": {"dataType":"string","required":true},
             "type": {"dataType":"string","required":true},
+            "previewUrl": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
