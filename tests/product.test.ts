@@ -8,7 +8,7 @@ beforeAll(async () => await create());
 afterAll(async () => await close());
 
 const basePath = process.env.npm_package_basePath;
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZWNlMjczOC01YjU2LTRiYTQtOGZhNC1iNTQ1ZGMzZmQ0NjQiLCJhY2NvdW50SWQiOiI3Njc5OTJjNy0yYzljLTRjM2UtYWI5Zi03ZWQxYTNlOThkNjIiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM3MjIzMDM1LCJleHAiOjE2MzczMDk0MzV9.ksjAZcMyf0BUZzw_S0QHuBB3_e9vnJrj96QPTeX63vnwhInyonQgT9fmDF8r39NjXLGYn1UqSuBloRuqWaCIiqBD_97VVGAC8ciTN7TdYXiumodx2pNOO6zJhTom6SoFXHjpx6vnOFiS6Arfeyipb4W62xY-80AGpe1mMMb3REo`;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZWNlMjczOC01YjU2LTRiYTQtOGZhNC1iNTQ1ZGMzZmQ0NjQiLCJhY2NvdW50SWQiOiI3Njc5OTJjNy0yYzljLTRjM2UtYWI5Zi03ZWQxYTNlOThkNjIiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM3MzEyMjM1LCJleHAiOjE2MzczOTg2MzV9.k2mFxaD-gao_jUQV8Hhic0_i3IewLF-AaGh7HDKonSylEFu4x3GwAcY7z5XaOznQGyAqppRiQEtQKjhdL7pG8A06IImYaciDPkHlNLQEgQn9aO6mKbbx_-8rw_jnctWrSaLsvQktHWHlv1KTU2X3S-pKB9xtkEASsq-xp8B_Skc`;
 let product: UpdateProductBody;
 const data: CreateProductBody = {
   asset: { name: 'test', url: 'test', type: 'image/png', previewUrl: 'test' },
