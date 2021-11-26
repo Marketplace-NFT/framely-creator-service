@@ -1,15 +1,4 @@
-import { Product } from '@entities/Product';
-
-export interface ProductResponse extends Partial<Product> {
-  asset?: Asset;
-  price?: number;
-  currency?: string;
-  title: string;
-  description?: string;
-  royalties: number;
-  freeMinting: boolean;
-  draft: boolean;
-}
+import { Column } from 'typeorm';
 
 export interface CreateProductBody {
   asset?: Asset | null;
@@ -47,16 +36,23 @@ export interface RestoreProductResponse {
   status: string;
   productId: string;
 }
-
-export interface Paginate {
-  keyword?: string;
-  take?: number;
-  skip?: number;
-}
-
 export interface Asset {
   name: string;
   url: string;
   type: string;
   previewUrl: string;
+}
+
+export class AssetObject {
+  @Column({ type: 'varchar', default: 'name' })
+  public name!: string;
+
+  @Column({ type: 'varchar', default: 'url' })
+  public url!: string;
+
+  @Column({ type: 'varchar', default: 'type' })
+  public type!: string;
+
+  @Column({ type: 'varchar', default: 'previewUrl' })
+  public previewUrl!: string;
 }
