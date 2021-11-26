@@ -8,6 +8,7 @@ const baseConfig = {
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1d',
   JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY || '',
   USE_LOG_FILE: Boolean(process.env.USE_LOG_FILE),
+  storageUrl: process.env.STORAGE_HOST || 'https://framely.dev2.hdwebsoft.co',
 };
 
 if (process.env.JWT_PUBLIC_KEY_FILE) {

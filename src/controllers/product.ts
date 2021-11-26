@@ -1,6 +1,5 @@
 import {
   Controller,
-  Get,
   Response,
   Route,
   SuccessResponse,
@@ -12,12 +11,10 @@ import {
   Body,
   Patch,
   Delete,
-  Query,
 } from 'tsoa';
 import { AuthedRequest } from '@customtypes/auth';
 import {
   CreateProductBody,
-  ProductResponse,
   CreateProductResponse,
   DeleteProductResponse,
   UpdateProductResponse,
@@ -25,7 +22,6 @@ import {
   RestoreProductResponse,
 } from '../types/product';
 import ProductService from '@services/product';
-import { getPagination } from '@utils/query';
 
 @Route('')
 export class ProductController extends Controller {
@@ -34,39 +30,6 @@ export class ProductController extends Controller {
   constructor() {
     super();
     this.productService = new ProductService();
-  }
-
-  // Get all products by user/creator
-  @Get('/my-products')
-  @Tags('Product')
-  @Security('jwt')
-  @Response<ProductResponse[]>('200', 'OK')
-  @SuccessResponse('200', 'OK')
-  public async getAllProductsByUser(
-    @Request() request: AuthedRequest,
-    @Query() query?: string,
-  ): Promise<ProductResponse[]> {
-    const { userId } = request.auth;
-    const paginate = getPagination(query);
-    return this.productService.getAllProductsByUser(userId, paginate);
-  }
-
-  // Get all products in market place
-  @Get('/products')
-  @Tags('Product')
-  @Response<ProductResponse[]>('200', 'OK')
-  @SuccessResponse('200', 'OK')
-  public async getAllProducts(@Query() query?: string): Promise<ProductResponse[]> {
-    const paginate = getPagination(query);
-    return this.productService.getAllProducts(paginate);
-  }
-
-  @Get('/products/{id}')
-  @Tags('Product')
-  @Response<ProductResponse>('200', 'OK')
-  @SuccessResponse('200', 'OK')
-  public async getProduct(@Path() id: string): Promise<ProductResponse> {
-    return this.productService.getProduct(id);
   }
 
   @Post('/products')
@@ -79,7 +42,8 @@ export class ProductController extends Controller {
     @Body() body: CreateProductBody,
   ): Promise<CreateProductResponse> {
     const { userId, accountId } = request.auth;
-    return this.productService.createProduct(userId, accountId, body);
+    const token = request.headers['authorization'] as string;
+    return this.productService.createProduct(userId, accountId, body, token);
   }
 
   @Patch('/products')
@@ -92,7 +56,8 @@ export class ProductController extends Controller {
     @Body() body: UpdateProductBody,
   ): Promise<UpdateProductResponse> {
     const { userId, accountId } = request.auth;
-    return this.productService.updateProduct(userId, accountId, body);
+    const token = request.headers['authorization'] as string;
+    return this.productService.updateProduct(userId, accountId, body, token);
   }
 
   @Delete('/products/{id}')

@@ -6,6 +6,25 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"CreateProductResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"transactionId": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Asset": {
 				"properties": {
 					"name": {
@@ -26,63 +45,6 @@
 					"url",
 					"type",
 					"previewUrl"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ProductResponse": {
-				"properties": {
-					"asset": {
-						"$ref": "#/components/schemas/Asset"
-					},
-					"price": {
-						"type": "number",
-						"format": "double"
-					},
-					"currency": {
-						"type": "string"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"royalties": {
-						"type": "number",
-						"format": "double"
-					},
-					"freeMinting": {
-						"type": "boolean"
-					},
-					"draft": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"title",
-					"royalties",
-					"freeMinting",
-					"draft"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateProductResponse": {
-				"properties": {
-					"status": {
-						"type": "string"
-					},
-					"transactionId": {
-						"type": "string"
-					},
-					"productId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"status",
-					"productId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -305,77 +267,7 @@
 				"parameters": []
 			}
 		},
-		"/my-products": {
-			"get": {
-				"operationId": "GetAllProductsByUser",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/ProductResponse"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Product"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/products": {
-			"get": {
-				"operationId": "GetAllProducts",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/ProductResponse"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Product"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
 			"post": {
 				"operationId": "CreateProduct",
 				"responses": {
@@ -446,35 +338,6 @@
 			}
 		},
 		"/products/{id}": {
-			"get": {
-				"operationId": "GetProduct",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ProductResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Product"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
 			"delete": {
 				"operationId": "DeleteProduct",
 				"responses": {
