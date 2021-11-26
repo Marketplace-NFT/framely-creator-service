@@ -1,5 +1,4 @@
-import { removeGuardFields } from './../src/utils/guard';
-import { CreateProductBody, UpdateProductBody } from '../src/types/product';
+import { CreateProductBody } from '../src/types/product';
 import { statusCodes } from './httpStatusCode';
 import { request } from './supertest';
 import { create, close } from './connection';
@@ -8,10 +7,15 @@ beforeAll(async () => await create());
 afterAll(async () => await close());
 
 const basePath = process.env.npm_package_basePath;
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZWNlMjczOC01YjU2LTRiYTQtOGZhNC1iNTQ1ZGMzZmQ0NjQiLCJhY2NvdW50SWQiOiI3Njc5OTJjNy0yYzljLTRjM2UtYWI5Zi03ZWQxYTNlOThkNjIiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjM3MzEyMjM1LCJleHAiOjE2MzczOTg2MzV9.k2mFxaD-gao_jUQV8Hhic0_i3IewLF-AaGh7HDKonSylEFu4x3GwAcY7z5XaOznQGyAqppRiQEtQKjhdL7pG8A06IImYaciDPkHlNLQEgQn9aO6mKbbx_-8rw_jnctWrSaLsvQktHWHlv1KTU2X3S-pKB9xtkEASsq-xp8B_Skc`;
-let product: UpdateProductBody;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1N2YwOTVlNy1iMWQ0LTQzNzgtOGQ3OC1lMmYwY2FhNTg0OTMiLCJhY2NvdW50SWQiOiI1YzdlMDNhNS0zYjBlLTQyNzAtYjhkNi0yMWE2Y2EyNmRiOTgiLCJwdWJsaWNBZGRyZXNzIjoiMHhDQjJEQmM0NUU0YjE2Njg0YzE1QzY0ZTc3OGVGNTg5RGYwNDYwOGVmIiwiaWF0IjoxNjM3OTA5NDY0LCJleHAiOjE2Mzc5OTU4NjR9.Q5CpfQOCUY1DYUmHSC0xL9DTeLhJluZma-LAEZbOvrPihXus3aLxo0sXJkuWa8Fn3klaKQvX3VNM4R97lBmK4WUOYqymRbcYHyBTe_GnJsmc_8bk1HWxvvxAzwRb6SlrGKw_rBtmO9Yy0IhyI2X5dnS-l8PyiOej8vOJMK7nWio`;
+let id = '';
 const data: CreateProductBody = {
-  asset: { name: 'test', url: 'test', type: 'image/png', previewUrl: 'test' },
+  asset: {
+    name: '2021/11/18/dcTEt_AAyEJyos9KL4eb0_test',
+    url: 'https://s3.fr-par.scw.cloud/framely-assets-dev/2021/11/18/dcTEt_AAyEJyos9KL4eb0_test',
+    type: 'image/png',
+    previewUrl: 'string',
+  },
   price: 1,
   currency: 'ETH',
   title: parseInt(`${Math.random() * 10000000}`).toString(),
@@ -25,49 +29,17 @@ describe('Test Creator Service', () => {
   describe('Post /products', () => {
     test('should return Product', async () => {
       const res = await request.post(`${basePath}/products`).auth(token, { type: 'bearer' }).send(data);
+      console.log(res.error);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
-    });
-  });
-
-  describe('Get /products', () => {
-    test('should return Products', async () => {
-      const res = await request.get(`${basePath}/products`);
-      expect(res.status).toBe(statusCodes.OK);
-      expect(res.body).toBeDefined();
-      product = res.body.find((v: UpdateProductBody) => v.title === data.title);
-    });
-  });
-
-  describe('Get /products/id', () => {
-    test('should return Product', async () => {
-      const res = await request.get(`${basePath}/products/${product.id}`);
-      expect(res.status).toBe(statusCodes.OK);
-      expect(res.body).toBeDefined();
-    });
-  });
-
-  describe('Get /my-products', () => {
-    test('should return Products', async () => {
-      const res = await request.get(`${basePath}/my-products`).auth(token, { type: 'bearer' });
-      expect(res.status).toBe(statusCodes.OK);
-      expect(res.body).toBeDefined();
+      id = res.body.productId;
     });
   });
 
   describe('Patch /products', () => {
     test('should return status "Done"', async () => {
-      const payload = removeGuardFields(product, [
-        'createdAt',
-        'updatedAt',
-        'userId',
-        'accountId',
-        'transactionId',
-        'status',
-      ]);
+      const payload = { ...data, id };
       payload.draft = false;
-
-      console.log(product);
       const res = await request.patch(`${basePath}/products`).auth(token, { type: 'bearer' }).send(payload);
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
@@ -76,10 +48,7 @@ describe('Test Creator Service', () => {
 
   describe('Patch /reactions', () => {
     test('should return status "Love"', async () => {
-      const res = await request
-        .patch(`${basePath}/reactions`)
-        .auth(token, { type: 'bearer' })
-        .send({ productId: product.id });
+      const res = await request.patch(`${basePath}/reactions`).auth(token, { type: 'bearer' }).send({ productId: id });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
       expect(res.body.message).toBe('Loved');
@@ -88,10 +57,7 @@ describe('Test Creator Service', () => {
 
   describe('Patch /reactions', () => {
     test('should return status "Love"', async () => {
-      const res = await request
-        .patch(`${basePath}/reactions`)
-        .auth(token, { type: 'bearer' })
-        .send({ productId: product.id });
+      const res = await request.patch(`${basePath}/reactions`).auth(token, { type: 'bearer' }).send({ productId: id });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
       expect(res.body.message).toBe('Unloved');
@@ -100,7 +66,7 @@ describe('Test Creator Service', () => {
 
   describe('Delete /products/id', () => {
     test('should return status "Done"', async () => {
-      const res = await request.delete(`${basePath}/products/${product.id}`).auth(token, { type: 'bearer' });
+      const res = await request.delete(`${basePath}/products/${id}`).auth(token, { type: 'bearer' });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
@@ -108,7 +74,7 @@ describe('Test Creator Service', () => {
 
   describe('Patch /products/id', () => {
     test('should return status "Done"', async () => {
-      const res = await request.patch(`${basePath}/restore-product/${product.id}`).auth(token, { type: 'bearer' });
+      const res = await request.patch(`${basePath}/restore-product/${id}`).auth(token, { type: 'bearer' });
       expect(res.status).toBe(statusCodes.OK);
       expect(res.body).toBeDefined();
     });
