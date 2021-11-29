@@ -37,7 +37,7 @@ export default class StorageService {
     if (res.data.thumbnailKey) {
       name = res.data.thumbnailKey;
       url = res.data.thumbnailUrl;
-      type = 'content/png';
+      type = 'image/png';
     }
     return { name, url, type, previewUrl: asset.previewUrl };
   }
