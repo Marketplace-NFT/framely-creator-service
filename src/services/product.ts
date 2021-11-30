@@ -36,7 +36,7 @@ export default class ProductService {
     let product = new Product();
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId']);
     product.id = uuid4();
-    body.asset = await this.storageService.createAsset(token, product.id, body.asset as Asset);
+    body.asset = await this.storageService.updateAsset(token, product.id, body.asset as Asset);
     product = { ...product, userId, accountId, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);
@@ -57,7 +57,7 @@ export default class ProductService {
     if (body.asset) {
       if (product.asset.name.includes(body.asset?.name)) {
         delete body.asset;
-      } else body.asset = await this.storageService.createAsset(token, product.id, body.asset as Asset);
+      } else body.asset = await this.storageService.updateAsset(token, product.id, body.asset as Asset);
     }
     product = { ...product, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';

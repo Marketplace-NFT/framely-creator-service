@@ -1,18 +1,18 @@
 import axios from 'axios';
 
 import { Asset } from '../types/product';
-import { CreateAssetRequest } from '@customtypes/upload';
+import { UpdateAssetRequest } from '@customtypes/upload';
 import baseConfig from '@config/index';
 
 export default class StorageService {
-  public async createAsset(
+  public async updateAsset(
     token: string,
     productId: string,
     asset: Asset,
     width?: number,
     height?: number,
   ): Promise<Asset> {
-    const data: CreateAssetRequest = {
+    const data: UpdateAssetRequest = {
       objectKey: asset.name,
       objectUrl: asset.url,
       contentType: asset.type,
@@ -25,7 +25,7 @@ export default class StorageService {
       });
     const res = await axios({
       url: `${baseConfig.storageUrl}/api/storage/assets`,
-      method: 'POST',
+      method: 'PATCH',
       data,
       headers: {
         Authorization: token,
@@ -33,12 +33,11 @@ export default class StorageService {
     });
     let name = res.data.objectKey;
     let url = res.data.objectUrl;
-    let type = res.data.contentType;
+    const type = res.data.contentType;
     if (res.data.thumbnailKey) {
       name = res.data.thumbnailKey;
       url = res.data.thumbnailUrl;
-      type = 'image/png';
     }
-    return { name, url, type, previewUrl: asset.previewUrl };
+    return { name, url, type, previewUrl: url };
   }
 }
