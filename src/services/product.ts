@@ -56,7 +56,6 @@ export default class ProductService {
     let product = await this.productRepository.findOne({ id: body.id, userId, accountId });
     if (!product) throw new EntityNotFoundError('Product not found');
 
-    const bodyGuard = removeGuardFields(body, ['userId', 'accountId', 'transactionId', 'id']);
     const [asset, previewImage] = await Promise.all([
       this.storageService.updateAsset(token, product.id, body.asset as Asset),
       this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
@@ -64,6 +63,7 @@ export default class ProductService {
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
 
+    const bodyGuard = removeGuardFields(body, ['userId', 'accountId', 'transactionId', 'id']);
     product = { ...product, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);
