@@ -25,7 +25,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Asset": {
+			"AssetObject": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -35,26 +35,40 @@
 					},
 					"type": {
 						"type": "string"
-					},
-					"previewUrl": {
-						"type": "string"
 					}
 				},
 				"required": [
 					"name",
 					"url",
-					"type",
-					"previewUrl"
+					"type"
 				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AssetBaseObject": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
 				"type": "object",
 				"additionalProperties": false
 			},
 			"CreateProductBody": {
 				"properties": {
 					"asset": {
+						"$ref": "#/components/schemas/AssetObject"
+					},
+					"previewImage": {
 						"allOf": [
 							{
-								"$ref": "#/components/schemas/Asset"
+								"$ref": "#/components/schemas/AssetBaseObject"
 							}
 						],
 						"nullable": true
@@ -87,6 +101,7 @@
 					}
 				},
 				"required": [
+					"asset",
 					"title",
 					"royalties",
 					"freeMinting",
@@ -119,7 +134,15 @@
 					"asset": {
 						"allOf": [
 							{
-								"$ref": "#/components/schemas/Asset"
+								"$ref": "#/components/schemas/AssetObject"
+							}
+						],
+						"nullable": true
+					},
+					"previewImage": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/AssetBaseObject"
 							}
 						],
 						"nullable": true
@@ -134,7 +157,8 @@
 						"nullable": true
 					},
 					"title": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"description": {
 						"type": "string",
@@ -142,23 +166,22 @@
 					},
 					"royalties": {
 						"type": "number",
-						"format": "double"
+						"format": "double",
+						"nullable": true
 					},
 					"freeMinting": {
-						"type": "boolean"
+						"type": "boolean",
+						"nullable": true
 					},
 					"draft": {
-						"type": "boolean"
+						"type": "boolean",
+						"nullable": true
 					},
 					"id": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"title",
-					"royalties",
-					"freeMinting",
-					"draft",
 					"id"
 				],
 				"type": "object",
