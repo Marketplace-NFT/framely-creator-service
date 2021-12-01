@@ -26,13 +26,22 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Asset": {
+    "AssetObject": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
             "url": {"dataType":"string","required":true},
             "type": {"dataType":"string","required":true},
-            "previewUrl": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AssetBaseObject": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string"},
+            "url": {"dataType":"string"},
+            "type": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -40,7 +49,8 @@ const models: TsoaRoute.Models = {
     "CreateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "asset": {"dataType":"union","subSchemas":[{"ref":"Asset"},{"dataType":"enum","enums":[null]}]},
+            "asset": {"ref":"AssetObject","required":true},
+            "previewImage": {"dataType":"union","subSchemas":[{"ref":"AssetBaseObject"},{"dataType":"enum","enums":[null]}]},
             "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
             "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "title": {"dataType":"string","required":true},
@@ -65,14 +75,15 @@ const models: TsoaRoute.Models = {
     "UpdateProductBody": {
         "dataType": "refObject",
         "properties": {
-            "asset": {"dataType":"union","subSchemas":[{"ref":"Asset"},{"dataType":"enum","enums":[null]}]},
+            "asset": {"dataType":"union","subSchemas":[{"ref":"AssetObject"},{"dataType":"enum","enums":[null]}]},
+            "previewImage": {"dataType":"union","subSchemas":[{"ref":"AssetBaseObject"},{"dataType":"enum","enums":[null]}]},
             "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
             "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
-            "title": {"dataType":"string","required":true},
+            "title": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
-            "royalties": {"dataType":"double","required":true},
-            "freeMinting": {"dataType":"boolean","required":true},
-            "draft": {"dataType":"boolean","required":true},
+            "royalties": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
+            "freeMinting": {"dataType":"union","subSchemas":[{"dataType":"boolean"},{"dataType":"enum","enums":[null]}]},
+            "draft": {"dataType":"union","subSchemas":[{"dataType":"boolean"},{"dataType":"enum","enums":[null]}]},
             "id": {"dataType":"string","required":true},
         },
         "additionalProperties": false,

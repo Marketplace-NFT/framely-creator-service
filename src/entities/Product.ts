@@ -1,7 +1,9 @@
 import { Column, Entity, OneToMany, DeleteDateColumn, Index } from 'typeorm';
+
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Reaction } from './Reaction';
 import { AssetObject } from '@customtypes/product';
+import { AssetBaseObject } from '@customtypes/upload';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -17,6 +19,9 @@ export class Product extends BaseEntity {
 
   @Column(() => AssetObject)
   public asset!: AssetObject;
+
+  @Column(() => AssetBaseObject)
+  public previewImage?: AssetBaseObject;
 
   @Column({ type: 'decimal', nullable: true })
   public price?: number;

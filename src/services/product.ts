@@ -1,18 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 import { v4 as uuid4 } from 'uuid';
 
-import {
-  Asset,
-  CreateProductBody,
-  DeleteProductResponse,
-  RestoreProductResponse,
-  UpdateProductBody,
-} from '../types/product';
+import { CreateProductBody, DeleteProductResponse, RestoreProductResponse, UpdateProductBody } from '../types/product';
 import { Product } from '@entities/Product';
 import { CreateProductResponse, UpdateProductResponse } from '@customtypes/product';
 import { BadRequest, EntityNotFoundError } from '@exceptions/errors';
 import { removeGuardFields } from '@utils/guard';
 import StorageService from './storage';
+import { Asset } from '@customtypes/upload';
 
 export default class ProductService {
   private productRepository: Repository<Product>;
@@ -36,7 +31,14 @@ export default class ProductService {
     let product = new Product();
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId']);
     product.id = uuid4();
-    body.asset = await this.storageService.updateAsset(token, product.id, body.asset as Asset);
+
+    const [asset, previewImage] = await Promise.all([
+      this.storageService.updateAsset(token, product.id, body.asset),
+      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+    ]);
+    if (asset) body.asset = asset;
+    if (previewImage) body.previewImage = previewImage;
+
     product = { ...product, userId, accountId, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);
@@ -49,16 +51,19 @@ export default class ProductService {
     body: UpdateProductBody,
     token: string,
   ): Promise<UpdateProductResponse> {
-    this.validateRoyalties(body.royalties);
+    if (body.royalties) this.validateRoyalties(body.royalties);
+
     let product = await this.productRepository.findOne({ id: body.id, userId, accountId });
     if (!product) throw new EntityNotFoundError('Product not found');
 
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId', 'transactionId', 'id']);
-    if (body.asset) {
-      if (product.asset.name.includes(body.asset?.name)) {
-        delete body.asset;
-      } else body.asset = await this.storageService.updateAsset(token, product.id, body.asset as Asset);
-    }
+    const [asset, previewImage] = await Promise.all([
+      this.storageService.updateAsset(token, product.id, body.asset as Asset),
+      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+    ]);
+    if (asset) body.asset = asset;
+    if (previewImage) body.previewImage = previewImage;
+
     product = { ...product, ...bodyGuard } as Product;
     product.status = product.draft ? 'Draft' : 'Done';
     const res = await this.productRepository.save(product);

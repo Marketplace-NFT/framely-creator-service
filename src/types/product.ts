@@ -1,7 +1,9 @@
 import { Column } from 'typeorm';
+import { AssetBaseObject } from './upload';
 
 export interface CreateProductBody {
-  asset?: Asset | null;
+  asset: AssetObject;
+  previewImage?: AssetBaseObject | null;
   price?: number | null;
   currency?: string | null;
   title: string;
@@ -17,7 +19,16 @@ export interface CreateProductResponse {
   productId: string;
 }
 
-export interface UpdateProductBody extends CreateProductBody {
+export interface UpdateProductBody {
+  asset?: AssetObject | null;
+  previewImage?: AssetBaseObject | null;
+  price?: number | null;
+  currency?: string | null;
+  title?: string | null;
+  description?: string | null;
+  royalties?: number | null;
+  freeMinting?: boolean | null;
+  draft?: boolean | null;
   id: string;
 }
 
@@ -36,12 +47,6 @@ export interface RestoreProductResponse {
   status: string;
   productId: string;
 }
-export interface Asset {
-  name: string;
-  url: string;
-  type: string;
-  previewUrl: string;
-}
 
 export class AssetObject {
   @Column({ type: 'varchar', default: 'name' })
@@ -52,7 +57,4 @@ export class AssetObject {
 
   @Column({ type: 'varchar', default: 'type' })
   public type!: string;
-
-  @Column({ type: 'varchar', default: 'previewUrl' })
-  public previewUrl!: string;
 }
