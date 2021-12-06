@@ -25,7 +25,6 @@ export default class ProductService {
     userId: string,
     accountId: string,
     body: CreateProductBody,
-    token: string,
   ): Promise<CreateProductResponse> {
     this.validateRoyalties(body.royalties);
     let product = new Product();
@@ -33,8 +32,8 @@ export default class ProductService {
     product.id = uuid4();
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(token, product.id, body.asset),
-      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, body.asset),
+      this.storageService.updateAsset(product.id, body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
@@ -49,7 +48,6 @@ export default class ProductService {
     userId: string,
     accountId: string,
     body: UpdateProductBody,
-    token: string,
   ): Promise<UpdateProductResponse> {
     if (body.royalties) this.validateRoyalties(body.royalties);
 
@@ -57,8 +55,8 @@ export default class ProductService {
     if (!product) throw new EntityNotFoundError('Product not found');
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(token, product.id, body.asset as Asset),
-      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, body.asset as Asset),
+      this.storageService.updateAsset(product.id, body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;

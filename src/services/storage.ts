@@ -1,11 +1,8 @@
-import axios from 'axios';
-
 import { Asset, UpdateAssetRequest } from '@customtypes/upload';
-import baseConfig from '@config/index';
 import logger from '@utils/logger';
+import { api } from '@config/sdk';
 export default class StorageService {
   public async updateAsset(
-    token: string,
     productId: string,
     asset?: Asset,
     width?: number,
@@ -24,20 +21,13 @@ export default class StorageService {
         thumbnailOptions: { width, height },
       });
     try {
-      const res = await axios({
-        url: `${baseConfig.storageUrl}/api/storage/assets`,
-        method: 'PATCH',
-        data,
-        headers: {
-          Authorization: token,
-        },
-      });
-      let name = res.data.objectKey;
-      let url = res.data.objectUrl;
-      const type = res.data.contentType;
-      if (res.data.thumbnailKey) {
-        name = res.data.thumbnailKey;
-        url = res.data.thumbnailUrl;
+      const res = await api.storage.updateAsset(data);
+      let name = res.objectKey;
+      let url = res.objectUrl;
+      const type = res.contentType;
+      if (res.thumbnailKey && res.thumbnailUrl) {
+        name = res.thumbnailKey;
+        url = res.thumbnailUrl;
       }
       return { name, url, type };
     } catch (error) {
