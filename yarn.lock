@@ -887,7 +887,7 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@marketplace-nft/framely-api-sdk@0.0.1":
+"@marketplace-nft/framely-api-sdk@^0.0.1":
   version "0.0.1"
   resolved "https://npm.pkg.github.com/download/@marketplace-nft/framely-api-sdk/0.0.1/9e70ea8d56e4357e24cdaf154a0492e64c8514c0c25745b027f8816ffa1ea10e#6a1130929f52e70a816dfb844ee42c86f38cdc3b"
   integrity sha512-c6Mqeufc3PfC5GKxn8GZi9733OYTYHGZHLqxSevx6IdsW0KwSvj3/eCJ3J3SfwxbZWcHJDhKQmsw7+guHJrwfw==
