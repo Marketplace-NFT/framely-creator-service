@@ -42,8 +42,7 @@ export class ProductController extends Controller {
     @Body() body: CreateProductBody,
   ): Promise<CreateProductResponse> {
     const { userId, accountId } = request.auth;
-    const token = request.headers['authorization'] as string;
-    return this.productService.createProduct(userId, accountId, body, token);
+    return this.productService.createProduct(userId, accountId, body);
   }
 
   @Patch('/products')
@@ -56,8 +55,7 @@ export class ProductController extends Controller {
     @Body() body: UpdateProductBody,
   ): Promise<UpdateProductResponse> {
     const { userId, accountId } = request.auth;
-    const token = request.headers['authorization'] as string;
-    return this.productService.updateProduct(userId, accountId, body, token);
+    return this.productService.updateProduct(userId, accountId, body);
   }
 
   @Delete('/products/{id}')
