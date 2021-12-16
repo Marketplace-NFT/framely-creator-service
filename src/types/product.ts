@@ -58,3 +58,32 @@ export class AssetObject {
   @Column({ type: 'varchar', default: 'type' })
   public type!: string;
 }
+
+export class PriceObject {
+  @Column({ type: 'decimal', nullable: true })
+  public value?: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  public currency?: string;
+}
+
+enum SellMethod {
+  FIXED_PRICE = 'FIXED_PRICE',
+  TIMED_AUCTION = 'TIMED_AUCTION',
+  OPEN_FOR_BIDS = 'OPEN_FOR_BIDS',
+}
+export interface PublicationRequest {
+  productId: string;
+  sellMethod: SellMethod;
+  startPrice: PriceObject;
+  thresholdPrice?: PriceObject;
+  bidExpiration?: Date;
+}
+export interface PublicationResponse {
+  status: string;
+  productId: string;
+}
+
+export interface NonPublicationRequest {
+  productId: string;
+}

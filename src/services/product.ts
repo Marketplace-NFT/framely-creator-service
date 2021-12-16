@@ -1,8 +1,16 @@
 import { getRepository, Repository } from 'typeorm';
 import { v4 as uuid4 } from 'uuid';
 
-import { CreateProductBody, DeleteProductResponse, RestoreProductResponse, UpdateProductBody } from '../types/product';
-import { Product } from '@entities/Product';
+import {
+  CreateProductBody,
+  DeleteProductResponse,
+  NonPublicationRequest,
+  PublicationRequest,
+  PublicationResponse,
+  RestoreProductResponse,
+  UpdateProductBody,
+} from '../types/product';
+import { Product, ProductStatus } from '@entities/Product';
 import { CreateProductResponse, UpdateProductResponse } from '@customtypes/product';
 import { BadRequest, EntityNotFoundError } from '@exceptions/errors';
 import { removeGuardFields } from '@utils/guard';
@@ -25,7 +33,6 @@ export default class ProductService {
     userId: string,
     accountId: string,
     body: CreateProductBody,
-    token: string,
   ): Promise<CreateProductResponse> {
     this.validateRoyalties(body.royalties);
     let product = new Product();
@@ -33,14 +40,14 @@ export default class ProductService {
     product.id = uuid4();
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(token, product.id, body.asset),
-      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, body.asset),
+      this.storageService.updateAsset(product.id, body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
 
     product = { ...product, userId, accountId, ...bodyGuard } as Product;
-    product.status = product.draft ? 'Draft' : 'Done';
+    product.status = product.draft ? ProductStatus.DRAFT : ProductStatus.OFFICIAL;
     const res = await this.productRepository.save(product);
     return { status: res.status, transactionId: res.transactionId, productId: res.id };
   }
@@ -49,7 +56,6 @@ export default class ProductService {
     userId: string,
     accountId: string,
     body: UpdateProductBody,
-    token: string,
   ): Promise<UpdateProductResponse> {
     if (body.royalties) this.validateRoyalties(body.royalties);
 
@@ -57,15 +63,15 @@ export default class ProductService {
     if (!product) throw new EntityNotFoundError('Product not found');
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(token, product.id, body.asset as Asset),
-      this.storageService.updateAsset(token, product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, body.asset as Asset),
+      this.storageService.updateAsset(product.id, body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
 
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId', 'transactionId', 'id']);
     product = { ...product, ...bodyGuard } as Product;
-    product.status = product.draft ? 'Draft' : 'Done';
+    product.status = product.draft ? ProductStatus.DRAFT : ProductStatus.OFFICIAL;
     const res = await this.productRepository.save(product);
     return { status: res.status, transactionId: res.transactionId, productId: res.id };
   }
@@ -80,5 +86,25 @@ export default class ProductService {
     const res = await this.productRepository.restore({ id, userId });
     if (res.affected === 0) throw new EntityNotFoundError('Product not found');
     return { status: 'Done', productId: id };
+  }
+
+  public async publication(body: PublicationRequest): Promise<PublicationResponse> {
+    const res = await this.productRepository.findOne({ id: body.productId });
+    if (!res) throw new EntityNotFoundError('Product not found');
+    res.status = ProductStatus.PUBLICATION;
+    res.sellMethod = body.sellMethod;
+    res.startPrice = body.startPrice;
+    res.thresholdPrice = body.thresholdPrice;
+    res.bidExpiration = body.bidExpiration;
+    await this.productRepository.save(res);
+    return { status: res.status, productId: res.id };
+  }
+
+  public async nonPublication(body: NonPublicationRequest): Promise<PublicationResponse> {
+    const res = await this.productRepository.findOne({ id: body.productId });
+    if (!res) throw new EntityNotFoundError('Product not found');
+    res.status = ProductStatus.OFFICIAL;
+    await this.productRepository.save(res);
+    return { status: res.status, productId: res.id };
   }
 }

@@ -20,6 +20,9 @@ import {
   UpdateProductResponse,
   UpdateProductBody,
   RestoreProductResponse,
+  PublicationResponse,
+  PublicationRequest,
+  NonPublicationRequest,
 } from '../types/product';
 import ProductService from '@services/product';
 
@@ -42,8 +45,7 @@ export class ProductController extends Controller {
     @Body() body: CreateProductBody,
   ): Promise<CreateProductResponse> {
     const { userId, accountId } = request.auth;
-    const token = request.headers['authorization'] as string;
-    return this.productService.createProduct(userId, accountId, body, token);
+    return this.productService.createProduct(userId, accountId, body);
   }
 
   @Patch('/products')
@@ -56,8 +58,7 @@ export class ProductController extends Controller {
     @Body() body: UpdateProductBody,
   ): Promise<UpdateProductResponse> {
     const { userId, accountId } = request.auth;
-    const token = request.headers['authorization'] as string;
-    return this.productService.updateProduct(userId, accountId, body, token);
+    return this.productService.updateProduct(userId, accountId, body);
   }
 
   @Delete('/products/{id}')
@@ -73,10 +74,28 @@ export class ProductController extends Controller {
   @Patch('/restore-product/{id}')
   @Tags('Product')
   @Security('jwt')
-  @Response<DeleteProductResponse>('200', 'OK')
+  @Response<RestoreProductResponse>('200', 'OK')
   @SuccessResponse('200', 'OK')
   public async restoreProduct(@Request() request: AuthedRequest, @Path() id: string): Promise<RestoreProductResponse> {
     const { userId } = request.auth;
     return this.productService.restoreProduct(userId, id);
+  }
+
+  @Patch('/publication')
+  @Tags('Product')
+  @Security('jwt')
+  @Response<PublicationResponse>('200', 'OK')
+  @SuccessResponse('200', 'OK')
+  public async publication(@Body() body: PublicationRequest): Promise<PublicationResponse> {
+    return this.productService.publication(body);
+  }
+
+  @Patch('/non-publication')
+  @Tags('Product')
+  @Security('jwt')
+  @Response<PublicationResponse>('200', 'OK')
+  @SuccessResponse('200', 'OK')
+  public async nonPublication(@Body() body: NonPublicationRequest): Promise<PublicationResponse> {
+    return this.productService.nonPublication(body);
   }
 }
