@@ -219,6 +219,82 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"PublicationResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SellMethod": {
+				"enum": [
+					"FIXED_PRICE",
+					"TIMED_AUCTION",
+					"OPEN_FOR_BIDS"
+				],
+				"type": "string"
+			},
+			"PriceObject": {
+				"properties": {
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
+					"currency": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PublicationRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					},
+					"sellMethod": {
+						"$ref": "#/components/schemas/SellMethod"
+					},
+					"startPrice": {
+						"$ref": "#/components/schemas/PriceObject"
+					},
+					"thresholdPrice": {
+						"$ref": "#/components/schemas/PriceObject"
+					},
+					"bidExpiration": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"productId",
+					"sellMethod",
+					"startPrice"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NonPublicationRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UpdateReactionResponse": {
 				"properties": {
 					"message": {
@@ -428,6 +504,78 @@
 						}
 					}
 				]
+			}
+		},
+		"/publication": {
+			"patch": {
+				"operationId": "Publication",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PublicationResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PublicationRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/non-publication": {
+			"patch": {
+				"operationId": "NonPublication",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PublicationResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NonPublicationRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/reactions": {
