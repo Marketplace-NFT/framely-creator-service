@@ -70,20 +70,19 @@ export class PriceObject {
 enum SellMethod {
   FIXED_PRICE = 'FIXED_PRICE',
   TIMED_AUCTION = 'TIMED_AUCTION',
-  OPEN_FOR_BIDS = 'OPEN_FOR_BIDS',
 }
-export interface PublicationRequest {
+export interface SaleRequest {
   productId: string;
   sellMethod: SellMethod;
   startPrice: PriceObject;
   thresholdPrice?: PriceObject;
   bidExpiration?: Date;
 }
-export interface PublicationResponse {
+export interface SaleResponse {
   status: string;
   productId: string;
 }
 
-export interface NonPublicationRequest {
+export interface UnSaleRequest {
   productId: string;
 }

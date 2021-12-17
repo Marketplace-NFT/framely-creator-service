@@ -20,9 +20,9 @@ import {
   UpdateProductResponse,
   UpdateProductBody,
   RestoreProductResponse,
-  PublicationResponse,
-  PublicationRequest,
-  NonPublicationRequest,
+  UnSaleRequest,
+  SaleResponse,
+  SaleRequest,
 } from '../types/product';
 import ProductService from '@services/product';
 
@@ -81,21 +81,21 @@ export class ProductController extends Controller {
     return this.productService.restoreProduct(userId, id);
   }
 
-  @Patch('/publication')
+  @Patch('/products/sale')
   @Tags('Product')
   @Security('jwt')
-  @Response<PublicationResponse>('200', 'OK')
+  @Response<SaleResponse>('200', 'OK')
   @SuccessResponse('200', 'OK')
-  public async publication(@Body() body: PublicationRequest): Promise<PublicationResponse> {
-    return this.productService.publication(body);
+  public async sale(@Body() body: SaleRequest): Promise<SaleResponse> {
+    return this.productService.sale(body);
   }
 
-  @Patch('/non-publication')
+  @Patch('/products/unsale')
   @Tags('Product')
   @Security('jwt')
-  @Response<PublicationResponse>('200', 'OK')
+  @Response<SaleResponse>('200', 'OK')
   @SuccessResponse('200', 'OK')
-  public async nonPublication(@Body() body: NonPublicationRequest): Promise<PublicationResponse> {
-    return this.productService.nonPublication(body);
+  public async removeFromSale(@Body() body: UnSaleRequest): Promise<SaleResponse> {
+    return this.productService.removeFromSale(body.productId);
   }
 }

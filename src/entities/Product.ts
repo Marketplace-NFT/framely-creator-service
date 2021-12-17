@@ -9,13 +9,12 @@ import { Offer } from './Offer';
 export enum ProductStatus {
   DRAFT = 'DRAFT',
   OFFICIAL = 'OFFICIAL',
-  PUBLICATION = 'PUBLICATION',
+  SALE = 'SALE',
 }
 
 export enum SellMethod {
   FIXED_PRICE = 'FIXED_PRICE',
   TIMED_AUCTION = 'TIMED_AUCTION',
-  OPEN_FOR_BIDS = 'OPEN_FOR_BIDS',
 }
 @Entity()
 export class Product extends BaseEntity {

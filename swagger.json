@@ -219,7 +219,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"PublicationResponse": {
+			"SaleResponse": {
 				"properties": {
 					"status": {
 						"type": "string"
@@ -238,8 +238,7 @@
 			"SellMethod": {
 				"enum": [
 					"FIXED_PRICE",
-					"TIMED_AUCTION",
-					"OPEN_FOR_BIDS"
+					"TIMED_AUCTION"
 				],
 				"type": "string"
 			},
@@ -256,7 +255,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"PublicationRequest": {
+			"SaleRequest": {
 				"properties": {
 					"productId": {
 						"type": "string"
@@ -283,7 +282,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"NonPublicationRequest": {
+			"UnSaleRequest": {
 				"properties": {
 					"productId": {
 						"type": "string"
@@ -506,16 +505,16 @@
 				]
 			}
 		},
-		"/publication": {
+		"/products/sale": {
 			"patch": {
-				"operationId": "Publication",
+				"operationId": "Sale",
 				"responses": {
 					"200": {
 						"description": "OK",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/PublicationResponse"
+									"$ref": "#/components/schemas/SaleResponse"
 								}
 							}
 						}
@@ -535,23 +534,23 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/PublicationRequest"
+								"$ref": "#/components/schemas/SaleRequest"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/non-publication": {
+		"/products/unsale": {
 			"patch": {
-				"operationId": "NonPublication",
+				"operationId": "RemoveFromSale",
 				"responses": {
 					"200": {
 						"description": "OK",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/PublicationResponse"
+									"$ref": "#/components/schemas/SaleResponse"
 								}
 							}
 						}
@@ -571,7 +570,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/NonPublicationRequest"
+								"$ref": "#/components/schemas/UnSaleRequest"
 							}
 						}
 					}

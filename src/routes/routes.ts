@@ -107,7 +107,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PublicationResponse": {
+    "SaleResponse": {
         "dataType": "refObject",
         "properties": {
             "status": {"dataType":"string","required":true},
@@ -118,7 +118,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "SellMethod": {
         "dataType": "refEnum",
-        "enums": ["FIXED_PRICE","TIMED_AUCTION","OPEN_FOR_BIDS"],
+        "enums": ["FIXED_PRICE","TIMED_AUCTION"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "PriceObject": {
@@ -130,7 +130,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PublicationRequest": {
+    "SaleRequest": {
         "dataType": "refObject",
         "properties": {
             "productId": {"dataType":"string","required":true},
@@ -142,7 +142,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "NonPublicationRequest": {
+    "UnSaleRequest": {
         "dataType": "refObject",
         "properties": {
             "productId": {"dataType":"string","required":true},
@@ -298,12 +298,12 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.patch('/api/creator/publication',
+        app.patch('/api/creator/products/sale',
             authenticateMiddleware([{"jwt":[]}]),
 
-            function ProductController_publication(request: any, response: any, next: any) {
+            function ProductController_sale(request: any, response: any, next: any) {
             const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"PublicationRequest"},
+                    body: {"in":"body","name":"body","required":true,"ref":"SaleRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -315,19 +315,19 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new ProductController();
 
 
-              const promise = controller.publication.apply(controller, validatedArgs as any);
+              const promise = controller.sale.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.patch('/api/creator/non-publication',
+        app.patch('/api/creator/products/unsale',
             authenticateMiddleware([{"jwt":[]}]),
 
-            function ProductController_nonPublication(request: any, response: any, next: any) {
+            function ProductController_removeFromSale(request: any, response: any, next: any) {
             const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"NonPublicationRequest"},
+                    body: {"in":"body","name":"body","required":true,"ref":"UnSaleRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -339,7 +339,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new ProductController();
 
 
-              const promise = controller.nonPublication.apply(controller, validatedArgs as any);
+              const promise = controller.removeFromSale.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

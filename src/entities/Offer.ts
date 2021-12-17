@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-import { BaseEntity } from '@customtypes/BaseEntity';
+import { BaseEntity } from '@customtypes/baseEntity';
 import { Product } from './Product';
 import { PriceObject } from '@customtypes/product';
 

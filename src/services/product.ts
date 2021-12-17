@@ -4,10 +4,9 @@ import { v4 as uuid4 } from 'uuid';
 import {
   CreateProductBody,
   DeleteProductResponse,
-  NonPublicationRequest,
-  PublicationRequest,
-  PublicationResponse,
   RestoreProductResponse,
+  SaleRequest,
+  SaleResponse,
   UpdateProductBody,
 } from '../types/product';
 import { Product, ProductStatus } from '@entities/Product';
@@ -88,10 +87,10 @@ export default class ProductService {
     return { status: 'Done', productId: id };
   }
 
-  public async publication(body: PublicationRequest): Promise<PublicationResponse> {
+  public async sale(body: SaleRequest): Promise<SaleResponse> {
     const res = await this.productRepository.findOne({ id: body.productId });
     if (!res) throw new EntityNotFoundError('Product not found');
-    res.status = ProductStatus.PUBLICATION;
+    res.status = ProductStatus.SALE;
     res.sellMethod = body.sellMethod;
     res.startPrice = body.startPrice;
     res.thresholdPrice = body.thresholdPrice;
@@ -100,8 +99,8 @@ export default class ProductService {
     return { status: res.status, productId: res.id };
   }
 
-  public async nonPublication(body: NonPublicationRequest): Promise<PublicationResponse> {
-    const res = await this.productRepository.findOne({ id: body.productId });
+  public async removeFromSale(productId: string): Promise<SaleResponse> {
+    const res = await this.productRepository.findOne({ id: productId });
     if (!res) throw new EntityNotFoundError('Product not found');
     res.status = ProductStatus.OFFICIAL;
     await this.productRepository.save(res);
