@@ -6,6 +6,109 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"CollectionResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"collectionId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"collectionId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AssetBaseObject": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCollectionRequest": {
+				"properties": {
+					"displayName": {
+						"type": "string",
+						"nullable": true
+					},
+					"image": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/AssetBaseObject"
+							}
+						],
+						"nullable": true
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"shortUrl": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"shortUrl"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateCollectionRequest": {
+				"properties": {
+					"collectionId": {
+						"type": "string"
+					},
+					"image": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/AssetBaseObject"
+							}
+						],
+						"nullable": true
+					},
+					"displayName": {
+						"type": "string",
+						"nullable": true
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"shortUrl": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"collectionId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CollectionRequest": {
+				"properties": {
+					"collectionId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"collectionId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CreateProductResponse": {
 				"properties": {
 					"status": {
@@ -42,21 +145,6 @@
 					"url",
 					"type"
 				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"AssetBaseObject": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"url": {
-						"type": "string"
-					},
-					"type": {
-						"type": "string"
-					}
-				},
 				"type": "object",
 				"additionalProperties": false
 			},
@@ -263,6 +351,146 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/collections": {
+			"post": {
+				"operationId": "CreateCollection",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Collection"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCollectionRequest"
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"operationId": "UpdateCollection",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Collection"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateCollectionRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCollection",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Collection"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CollectionRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/collections/restore": {
+			"patch": {
+				"operationId": "RestoreCollection",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Collection"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CollectionRequest"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/": {
 			"get": {
 				"operationId": "Index",

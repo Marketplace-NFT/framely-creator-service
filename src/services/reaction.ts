@@ -1,15 +1,13 @@
-import { UpdateReactionResponse } from '../types/reaction';
 import { getRepository, Repository } from 'typeorm';
+
+import { UpdateReactionResponse } from '../types/reaction';
 import { Reaction } from '@entities/Reaction';
-import { Product } from '@entities/Product';
 
 export default class ReactionService {
   private reactionRepository: Repository<Reaction>;
-  private productRepository: Repository<Product>;
 
   public constructor() {
     this.reactionRepository = getRepository(Reaction);
-    this.productRepository = getRepository(Product);
   }
 
   public async updateReaction(userId: string, productId: string): Promise<UpdateReactionResponse> {
@@ -18,10 +16,9 @@ export default class ReactionService {
       relations: ['product'],
     });
     if (!reaction) {
-      const product = (await this.productRepository.findOne(productId)) as Product;
       const reaction = new Reaction();
       reaction.userId = userId;
-      reaction.product = Promise.resolve(product);
+      reaction.productId = productId;
       await this.reactionRepository.save(reaction);
       return { message: 'Loved' };
     }
