@@ -1,9 +1,10 @@
-import { Column, Entity, OneToMany, DeleteDateColumn, Index } from 'typeorm';
+import { Column, Entity, OneToMany, DeleteDateColumn, Index, ManyToOne, JoinColumn } from 'typeorm';
 
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Reaction } from './Reaction';
 import { AssetObject } from '@customtypes/product';
 import { AssetBaseObject } from '@customtypes/upload';
+import { Collection } from './Collection';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -49,6 +50,16 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => Reaction, (reaction) => reaction.product)
   public reactions!: Promise<Reaction[]>;
+
+  @ManyToOne(() => Collection, (collection) => collection.products)
+  @JoinColumn()
+  public collection?: Promise<Collection>;
+
+  @Column({ nullable: true })
+  public collectionId?: string;
+
+  @Column({ type: 'boolean', default: false })
+  public isBanner?: boolean;
 
   @DeleteDateColumn({ select: false })
   private deletedAt?: Date;

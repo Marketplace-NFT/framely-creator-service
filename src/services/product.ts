@@ -32,8 +32,8 @@ export default class ProductService {
     product.id = uuid4();
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(product.id, body.asset),
-      this.storageService.updateAsset(product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, 'Product', body.asset),
+      this.storageService.updateAsset(product.id, 'Product', body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
@@ -55,8 +55,8 @@ export default class ProductService {
     if (!product) throw new EntityNotFoundError('Product not found');
 
     const [asset, previewImage] = await Promise.all([
-      this.storageService.updateAsset(product.id, body.asset as Asset),
-      this.storageService.updateAsset(product.id, body.previewImage as Asset),
+      this.storageService.updateAsset(product.id, 'Product', body.asset as Asset),
+      this.storageService.updateAsset(product.id, 'Product', body.previewImage as Asset),
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;

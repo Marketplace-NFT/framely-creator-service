@@ -3,7 +3,8 @@ import logger from '@utils/logger';
 import { api } from '@config/sdk';
 export default class StorageService {
   public async updateAsset(
-    productId: string,
+    entityId: string,
+    entityName: string,
     asset?: Asset,
     width?: number,
     height?: number,
@@ -13,8 +14,8 @@ export default class StorageService {
       objectKey: asset.name,
       objectUrl: asset.url,
       contentType: asset.type,
-      entityId: productId,
-      entityName: 'Product',
+      entityId,
+      entityName,
     };
     if (width && height)
       Object.assign(data, {
