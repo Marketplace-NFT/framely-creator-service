@@ -30,6 +30,9 @@ export class Collection extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   public isFeature?: boolean;
 
+  @Column({ type: 'varchar', array: true, default: [] })
+  public bannerUrls!: string[];
+
   @DeleteDateColumn({ select: false })
   private deletedAt?: Date;
 }
