@@ -58,9 +58,6 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   public collectionId?: string;
 
-  @Column({ type: 'boolean', default: false })
-  public isBanner?: boolean;
-
   @DeleteDateColumn({ select: false })
   private deletedAt?: Date;
 }
