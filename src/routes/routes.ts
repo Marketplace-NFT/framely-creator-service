@@ -93,8 +93,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "asset": {"ref":"AssetObject","required":true},
             "previewImage": {"dataType":"union","subSchemas":[{"ref":"AssetBaseObject"},{"dataType":"enum","enums":[null]}]},
-            "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
-            "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"double","required":true},
@@ -119,8 +117,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "asset": {"dataType":"union","subSchemas":[{"ref":"AssetObject"},{"dataType":"enum","enums":[null]}]},
             "previewImage": {"dataType":"union","subSchemas":[{"ref":"AssetBaseObject"},{"dataType":"enum","enums":[null]}]},
-            "price": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
-            "currency": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "title": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "description": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "royalties": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
@@ -144,6 +140,49 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "status": {"dataType":"string","required":true},
+            "productId": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SaleResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "status": {"dataType":"string","required":true},
+            "productId": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SellMethod": {
+        "dataType": "refEnum",
+        "enums": ["FIXED_PRICE","TIMED_AUCTION"],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PriceObject": {
+        "dataType": "refObject",
+        "properties": {
+            "value": {"dataType":"double"},
+            "currency": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SaleRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "productId": {"dataType":"string","required":true},
+            "sellMethod": {"ref":"SellMethod","required":true},
+            "startPrice": {"ref":"PriceObject","required":true},
+            "thresholdPrice": {"ref":"PriceObject"},
+            "bidExpiration": {"dataType":"datetime"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UnSaleRequest": {
+        "dataType": "refObject",
+        "properties": {
             "productId": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -388,6 +427,54 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.restoreProduct.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.patch('/api/creator/products/sale',
+            authenticateMiddleware([{"jwt":[]}]),
+
+            function ProductController_sale(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"SaleRequest"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ProductController();
+
+
+              const promise = controller.sale.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.patch('/api/creator/products/unsale',
+            authenticateMiddleware([{"jwt":[]}]),
+
+            function ProductController_removeFromSale(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"UnSaleRequest"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ProductController();
+
+
+              const promise = controller.removeFromSale.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

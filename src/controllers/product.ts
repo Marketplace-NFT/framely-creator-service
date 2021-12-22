@@ -21,6 +21,9 @@ import {
   UpdateProductResponse,
   UpdateProductBody,
   RestoreProductResponse,
+  UnSaleRequest,
+  SaleResponse,
+  SaleRequest,
 } from '../types/product';
 import ProductService from '@services/product';
 
@@ -72,10 +75,28 @@ export class ProductController extends Controller {
   @Patch('/restore-product/{id}')
   @Tags('Product')
   @Security('jwt')
-  @Response<DeleteProductResponse>('200', 'OK')
+  @Response<RestoreProductResponse>('200', 'OK')
   @SuccessResponse('200', 'OK')
   public async restoreProduct(@Request() request: AuthedRequest, @Path() id: string): Promise<RestoreProductResponse> {
     const { userId } = request.auth;
     return this.productService.restoreProduct(userId, id);
+  }
+
+  @Patch('/products/sale')
+  @Tags('Product')
+  @Security('jwt')
+  @Response<SaleResponse>('200', 'OK')
+  @SuccessResponse('200', 'OK')
+  public async sale(@Body() body: SaleRequest): Promise<SaleResponse> {
+    return this.productService.sale(body);
+  }
+
+  @Patch('/products/unsale')
+  @Tags('Product')
+  @Security('jwt')
+  @Response<SaleResponse>('200', 'OK')
+  @SuccessResponse('200', 'OK')
+  public async removeFromSale(@Body() body: UnSaleRequest): Promise<SaleResponse> {
+    return this.productService.removeFromSale(body.productId);
   }
 }

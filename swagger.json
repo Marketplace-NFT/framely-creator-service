@@ -161,15 +161,6 @@
 						],
 						"nullable": true
 					},
-					"price": {
-						"type": "number",
-						"format": "double",
-						"nullable": true
-					},
-					"currency": {
-						"type": "string",
-						"nullable": true
-					},
 					"title": {
 						"type": "string"
 					},
@@ -235,15 +226,6 @@
 						],
 						"nullable": true
 					},
-					"price": {
-						"type": "number",
-						"format": "double",
-						"nullable": true
-					},
-					"currency": {
-						"type": "string",
-						"nullable": true
-					},
 					"title": {
 						"type": "string",
 						"nullable": true
@@ -302,6 +284,81 @@
 				},
 				"required": [
 					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SaleResponse": {
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"productId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SellMethod": {
+				"enum": [
+					"FIXED_PRICE",
+					"TIMED_AUCTION"
+				],
+				"type": "string"
+			},
+			"PriceObject": {
+				"properties": {
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
+					"currency": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SaleRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					},
+					"sellMethod": {
+						"$ref": "#/components/schemas/SellMethod"
+					},
+					"startPrice": {
+						"$ref": "#/components/schemas/PriceObject"
+					},
+					"thresholdPrice": {
+						"$ref": "#/components/schemas/PriceObject"
+					},
+					"bidExpiration": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"productId",
+					"sellMethod",
+					"startPrice"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UnSaleRequest": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					}
+				},
+				"required": [
 					"productId"
 				],
 				"type": "object",
@@ -656,6 +713,78 @@
 						}
 					}
 				]
+			}
+		},
+		"/products/sale": {
+			"patch": {
+				"operationId": "Sale",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SaleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SaleRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products/unsale": {
+			"patch": {
+				"operationId": "RemoveFromSale",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SaleResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Product"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UnSaleRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/reactions": {
