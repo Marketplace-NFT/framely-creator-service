@@ -1,10 +1,11 @@
-import { Column, Entity, OneToMany, DeleteDateColumn, Index } from 'typeorm';
+import { Column, Entity, OneToMany, DeleteDateColumn, Index, ManyToOne, JoinColumn } from 'typeorm';
 
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Reaction } from './Reaction';
 import { AssetObject, PriceObject } from '@customtypes/product';
 import { AssetBaseObject } from '@customtypes/upload';
 import { Offer } from './Offer';
+import { Collection } from './Collection';
 
 export enum ProductStatus {
   DRAFT = 'DRAFT',
@@ -33,12 +34,6 @@ export class Product extends BaseEntity {
 
   @Column(() => AssetBaseObject)
   public previewImage?: AssetBaseObject;
-
-  @Column({ type: 'decimal', nullable: true })
-  public price?: number;
-
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  public currency?: string;
 
   @Column({ type: 'varchar', length: 200, default: '' })
   public title!: string;
@@ -75,6 +70,12 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => Offer, (offer) => offer.product)
   public offers!: Promise<Offer[]>;
+  @ManyToOne(() => Collection, (collection) => collection.products)
+  @JoinColumn()
+  public collection?: Promise<Collection>;
+
+  @Column({ nullable: true })
+  public collectionId?: string;
 
   @DeleteDateColumn({ select: false })
   private deletedAt?: Date;

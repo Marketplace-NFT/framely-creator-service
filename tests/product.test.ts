@@ -7,17 +7,14 @@ beforeAll(async () => await create());
 afterAll(async () => await close());
 
 const basePath = process.env.npm_package_basePath;
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1N2YwOTVlNy1iMWQ0LTQzNzgtOGQ3OC1lMmYwY2FhNTg0OTMiLCJhY2NvdW50SWQiOiI1YzdlMDNhNS0zYjBlLTQyNzAtYjhkNi0yMWE2Y2EyNmRiOTgiLCJwdWJsaWNBZGRyZXNzIjoiMHhDQjJEQmM0NUU0YjE2Njg0YzE1QzY0ZTc3OGVGNTg5RGYwNDYwOGVmIiwiaWF0IjoxNjM3OTA5NDY0LCJleHAiOjE2Mzc5OTU4NjR9.Q5CpfQOCUY1DYUmHSC0xL9DTeLhJluZma-LAEZbOvrPihXus3aLxo0sXJkuWa8Fn3klaKQvX3VNM4R97lBmK4WUOYqymRbcYHyBTe_GnJsmc_8bk1HWxvvxAzwRb6SlrGKw_rBtmO9Yy0IhyI2X5dnS-l8PyiOej8vOJMK7nWio`;
+const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNmRmN2M2Zi1jYmEzLTQwMDEtYTQ3MC02MjhmZjUwZThjZTgiLCJhY2NvdW50SWQiOiI1MTQ4Mzc1NC1lZWZlLTQ5MTctOWFmOC0yYjlhMzFmYTVlNTUiLCJwdWJsaWNBZGRyZXNzIjoiMHgxNDc5MTY5NzI2MEU0YzlBNzFmMTg0ODRDOWY5OTdCMzA4ZTU5MzI1IiwiaWF0IjoxNjQwMTYwNjI5LCJleHAiOjE2NDAyNDcwMjl9.KRv4DhJmaiXnaEvVVNPM6yL9PALaZOQ0gHb4mtER5q2t06DoTI9ouKhlO1WI4-2q0z_6mNT3llv0-NAMaC5QSemVWXIc0JoO2A70gNjcMOZ605hWdWlVBujnt68Hzy9EWj9THbnTNo8rWTde66JadbWfx0uuqT8xQxF5UKuxPFs`;
 let id = '';
 const data: CreateProductBody = {
   asset: {
-    name: '2021/11/18/dcTEt_AAyEJyos9KL4eb0_test',
-    url: 'https://s3.fr-par.scw.cloud/framely-assets-dev/2021/11/18/dcTEt_AAyEJyos9KL4eb0_test',
-    type: 'image/png',
-    previewUrl: 'string',
+    name: '2021/12/08/aOwMpdFLaFN15R_AhWVCa_IMG_7662.JPG',
+    url: 'https://s3.fr-par.scw.cloud/framely-assets-dev/2021/12/08/aOwMpdFLaFN15R_AhWVCa_IMG_7662.JPG',
+    type: 'image/jpeg',
   },
-  price: 1,
-  currency: 'ETH',
   title: parseInt(`${Math.random() * 10000000}`).toString(),
   description: 'test',
   royalties: 0,

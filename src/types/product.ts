@@ -4,8 +4,6 @@ import { AssetBaseObject } from './upload';
 export interface CreateProductBody {
   asset: AssetObject;
   previewImage?: AssetBaseObject | null;
-  price?: number | null;
-  currency?: string | null;
   title: string;
   description?: string | null;
   royalties: number;
@@ -22,8 +20,6 @@ export interface CreateProductResponse {
 export interface UpdateProductBody {
   asset?: AssetObject | null;
   previewImage?: AssetBaseObject | null;
-  price?: number | null;
-  currency?: string | null;
   title?: string | null;
   description?: string | null;
   royalties?: number | null;

@@ -1,5 +1,6 @@
-import { UpdateReactionResponse } from '../types/reaction';
 import { getRepository, Repository } from 'typeorm';
+
+import { UpdateReactionResponse } from '../types/reaction';
 import { Reaction } from '@entities/Reaction';
 
 export default class ReactionService {
