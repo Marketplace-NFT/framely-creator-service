@@ -177,6 +177,10 @@
 					},
 					"draft": {
 						"type": "boolean"
+					},
+					"collectionId": {
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
@@ -249,6 +253,10 @@
 					},
 					"id": {
 						"type": "string"
+					},
+					"collectionId": {
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
