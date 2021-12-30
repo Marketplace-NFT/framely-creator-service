@@ -33,7 +33,6 @@ export default class ProductService {
 
   private async validateUserCollection(userId: string, collectionId: string): Promise<boolean> {
     const res = await this.collectionRepository.findOne({ userId, id: collectionId });
-    console.log(res);
     if (res) return true;
     return false;
   }
