@@ -70,6 +70,7 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => Offer, (offer) => offer.product)
   public offers!: Promise<Offer[]>;
+
   @ManyToOne(() => Collection, (collection) => collection.products)
   @JoinColumn()
   public collection?: Promise<Collection>;

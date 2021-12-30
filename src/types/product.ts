@@ -9,6 +9,7 @@ export interface CreateProductBody {
   royalties: number;
   freeMinting: boolean;
   draft: boolean;
+  collectionId?: string | null;
 }
 
 export interface CreateProductResponse {
@@ -26,6 +27,7 @@ export interface UpdateProductBody {
   freeMinting?: boolean | null;
   draft?: boolean | null;
   id: string;
+  collectionId?: string | null;
 }
 
 export interface UpdateProductResponse {

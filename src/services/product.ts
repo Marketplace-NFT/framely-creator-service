@@ -15,17 +15,26 @@ import { BadRequest, EntityNotFoundError } from '@exceptions/errors';
 import { removeGuardFields } from '@utils/guard';
 import StorageService from './storage';
 import { Asset } from '@customtypes/upload';
+import { Collection } from '@entities/Collection';
 
 export default class ProductService {
   private productRepository: Repository<Product>;
+  private collectionRepository: Repository<Collection>;
   private storageService = new StorageService();
 
   public constructor() {
     this.productRepository = getRepository(Product);
+    this.collectionRepository = getRepository(Collection);
   }
 
   private validateRoyalties(royalties: number): void {
     if (royalties < 0 || royalties > 50) throw new BadRequest();
+  }
+
+  private async validateUserCollection(userId: string, collectionId: string): Promise<boolean> {
+    const res = await this.collectionRepository.findOne({ userId, id: collectionId });
+    if (res) return true;
+    return false;
   }
 
   public async createProduct(
@@ -44,6 +53,9 @@ export default class ProductService {
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
+    if (body.collectionId && !(await this.validateUserCollection(userId, body.collectionId))) {
+      throw new EntityNotFoundError('CollectionID does not belong to the current user');
+    }
 
     product = { ...product, userId, accountId, ...bodyGuard } as Product;
     product.status = product.draft ? ProductStatus.DRAFT : ProductStatus.OFFICIAL;
@@ -67,6 +79,9 @@ export default class ProductService {
     ]);
     if (asset) body.asset = asset;
     if (previewImage) body.previewImage = previewImage;
+    if (body.collectionId && !(await this.validateUserCollection(userId, body.collectionId))) {
+      throw new EntityNotFoundError('CollectionID does not belong to the current user');
+    }
 
     const bodyGuard = removeGuardFields(body, ['userId', 'accountId', 'transactionId', 'id']);
     product = { ...product, ...bodyGuard } as Product;
