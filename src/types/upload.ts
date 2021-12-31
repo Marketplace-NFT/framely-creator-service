@@ -30,3 +30,11 @@ export interface Asset {
   url: string;
   type: string;
 }
+
+export class Banner {
+  @Column({ type: 'int', nullable: true })
+  index!: number;
+
+  @Column({ type: 'varchar', nullable: true })
+  url!: string;
+}

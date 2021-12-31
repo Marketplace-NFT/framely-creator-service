@@ -2,7 +2,7 @@ import { Column, DeleteDateColumn, Entity, JoinColumn, OneToMany } from 'typeorm
 
 import { BaseEntity } from '@customtypes/baseEntity';
 import { Product } from './Product';
-import { AssetBaseObject } from '@customtypes/upload';
+import { AssetBaseObject, Banner } from '@customtypes/upload';
 @Entity()
 export class Collection extends BaseEntity {
   @Column()
@@ -27,11 +27,11 @@ export class Collection extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   public isMain?: boolean;
 
-  @Column({ type: 'boolean', default: false })
-  public isFeature?: boolean;
+  @Column({ type: 'int', nullable: true })
+  public featuredCollectionIndex?: number;
 
-  @Column({ type: 'varchar', array: true, default: [] })
-  public bannerUrls!: string[];
+  @Column({ type: 'jsonb', default: [] })
+  public banners!: Banner[];
 
   @DeleteDateColumn({ select: false })
   private deletedAt?: Date;
