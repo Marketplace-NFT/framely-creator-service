@@ -4,7 +4,7 @@ import { Product } from './Product';
 
 @Entity()
 export class Reaction extends BaseEntity {
-  @Column({ type: 'varchar', length: 200 })
+  @Column()
   public userId!: string;
 
   @ManyToOne(() => Product, (product) => product.reactions)
