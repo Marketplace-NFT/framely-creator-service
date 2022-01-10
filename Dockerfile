@@ -18,7 +18,7 @@ RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash 
 RUN /usr/local/bin/node-prune
 
 # Final
-FROM node:14.18.1-alpine as app_runtime
+FROM node:14.18.1-alpine as runner
 
 ARG USER=app
 ENV APP_HOME=/usr/src/app

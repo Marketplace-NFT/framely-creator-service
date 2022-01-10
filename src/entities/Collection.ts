@@ -24,6 +24,6 @@ export class Collection extends BaseEntity {
   @Column({ type: 'varchar', length: 200 })
   public shortUrl!: string;
 
-  @DeleteDateColumn({ select: false })
+  @DeleteDateColumn({ select: false, nullable: true })
   private deletedAt?: Date;
 }

@@ -31,9 +31,9 @@ export class Offer extends BaseEntity {
   @Column(() => PriceObject)
   public price?: PriceObject;
 
-  @Column({ type: 'enum', enum: OfferType, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   public type?: OfferType;
 
-  @Column({ type: 'enum', enum: OfferStatus, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   public status?: OfferStatus;
 }

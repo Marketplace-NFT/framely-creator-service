@@ -6,3 +6,6 @@ coverage
 .cache
 .env
 jwt*
+containers
+backups
+local.yml

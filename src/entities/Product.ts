@@ -53,10 +53,10 @@ export class Product extends BaseEntity {
   @OneToMany(() => Reaction, (reaction) => reaction.product)
   public reactions!: Promise<Reaction[]>;
 
-  @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus['DRAFT'] })
+  @Column({ type: 'varchar', length: 50, default: ProductStatus['DRAFT'] })
   public status!: ProductStatus;
 
-  @Column({ type: 'enum', enum: SellMethod, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   public sellMethod?: SellMethod;
 
   @Column(() => PriceObject)
@@ -78,6 +78,6 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   public collectionId?: string;
 
-  @DeleteDateColumn({ select: false })
+  @DeleteDateColumn({ select: false, nullable: true })
   private deletedAt?: Date;
 }

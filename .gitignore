@@ -9,5 +9,6 @@ coverage
 .log
 ormlogs.log
 jwtkey*
-private.key
-public.key
+containers
+backups
+local.yml
